@@ -1,9 +1,20 @@
 import logo from './../../assets/logo.svg'
-// import { useState } from 'react'
-import './Header.css'
+import { Link } from 'react-router-dom'
+import { HeaderProps } from '../BODY/Interfaces'
+import { useState } from 'react'
 
-const Header = () => {
-  // const [MobileMenu, setMobileMenu] = useState(false)
+import './Header.css'
+import LoginModal from '../BODY/LoginModal';
+
+const Header:React.FC<HeaderProps> = (cartItems) => {
+  const [showModal, setShowModal] = useState(false);
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
   return (
     <>
       <section className='head'>
@@ -25,25 +36,27 @@ const Header = () => {
       </section>
       <section className='search'>
         <div className='container c_flex'>
+          <Link to='/'>
           <div className='logo width '>
             <img src={logo} alt='' />
           </div>
+          </Link>
 
           <div className='search-box f_flex'>
             <i className='fa fa-search'></i>
             <input type='text' placeholder='Search and hit enter...' />
             <span>All Category</span>
           </div>
-          <div className='icon f_flex width'>
-            {/* <Link to='/LoginModal'> */}
+         {/* <Link to='/login'> */}
+          <div className='icon f_flex width' onClick={handleOpenModal}>
             <i className='fa fa-user icon-circle'></i>
-            {/* </Link> */}
           </div>
+         {/* </Link> */}
           <div className='cart'>
-            {/* <Link to='/cart'> */}
+            <Link to='/cart'>
             <i className='fa fa-shopping-bag icon-circle'></i>
-            {/* <span>{CartItem.length === 0 ? "" : CartItem.length}</span> */}
-            {/* </Link> */}
+            <span>{cartItems.cartItems.length === 0 ? "" : cartItems.cartItems.length}</span>
+            </Link>
           </div>
         </div>
       </section >
@@ -57,6 +70,7 @@ const Header = () => {
           </div>
         </div>
       </section>
+      <LoginModal open={showModal} onClose={handleCloseModal}/>
     </>
   )
 }

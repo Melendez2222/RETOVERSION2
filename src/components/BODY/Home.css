@@ -154,7 +154,16 @@
       padding: 20px 0;
       gap: 20px;
   }
-  
+  .f_flex {
+    display: flex;
+  }
+  .submenu{
+    margin-left: 20px;
+  }
+  .category span {
+    margin: 10px 20px;
+    text-transform: capitalize;
+  }
   .cart-total h3 {
       font-size: 20px;
       font-weight: 700;
@@ -195,9 +204,9 @@
   table{
       margin-left: 10%;
   }
-  td{
-      padding: 10px;
-      justify-content: center;
+  .table td, .table th {
+    text-align: center;
+    padding: 0 10px;
   }
   td img {
       height: 100px;
@@ -284,10 +293,7 @@
     margin-top: 10px;
     object-fit: contain;
   }
-  .category span {
-    margin: 10px 20px;
-    text-transform: capitalize;
-  }
+  
   .category .box {
     transition: 0.5s;
     padding: 0 20px;
