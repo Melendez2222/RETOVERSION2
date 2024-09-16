@@ -40,6 +40,10 @@ export interface Facturs {
 export interface LoginModalProps {
     open: boolean;
     onClose: () => void;
+    onLoginSuccess?: () => void;
+}
+export interface AuthProvProps{
+    children: React.ReactNode;
 }
 export interface ClientModalProps {
     open: boolean;
@@ -68,22 +72,27 @@ export interface CartProps {
 export interface AseoProps {
     selectedIndex: number;
     products: Product[];
+    addToCart: (product: Product) => void;
 }
 export interface CalzadoProps {
     selectedIndex: number;
     products: Product[];
+    addToCart: (product: Product) => void;
 }
 export interface CamisaProps {
     selectedIndex: number;
     products: Product[];
+    addToCart: (product: Product) => void;
 }
 export interface LimpiezaProps {
     selectedIndex: number;
     products: Product[];
+    addToCart: (product: Product) => void;
 }
 export interface PantalonProps {
     selectedIndex: number;
     products: Product[];
+    addToCart: (product: Product) => void;
 }
 export interface CategoriaProps {
     onSelectCategory: (cateName: string, index: number) => void;

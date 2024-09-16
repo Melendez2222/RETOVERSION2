@@ -2,18 +2,19 @@ import { Dialog, DialogContent } from '@mui/material';
 import { useRef, useEffect, useState } from 'react'
 import './Login.css'
 import { LoginModalProps } from './Interfaces';
-import { useNavigate } from 'react-router-dom';
 import { LoginUsers } from '../../services/Request';
+import { useNavigate } from 'react-router-dom';
 
-const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
+const LoginModal: React.FC<LoginModalProps> = ({ open, onClose, onLoginSuccess }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate();
+    const navigate= useNavigate();
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
             const response = await LoginUsers(username, password);
             if(response===200){
+                onLoginSuccess?.();
                 onClose();
                 navigate('/AdmPanel');
                 

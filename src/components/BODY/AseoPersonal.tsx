@@ -1,6 +1,6 @@
 import React from 'react'
 import { AseoProps } from './Interfaces'
-const AseoPersonal: React.FC<AseoProps>  = ({selectedIndex, products}) => {
+const AseoPersonal: React.FC<AseoProps>  = ({selectedIndex, products,addToCart}) => {
   const filteredItems = products.filter(item => item.categoria_pro_id === selectedIndex);
   return (
     <div className="container-items">
@@ -19,7 +19,7 @@ const AseoPersonal: React.FC<AseoProps>  = ({selectedIndex, products}) => {
                 <i className='fa fa-star'></i>
               </div>
               <p className="price">${product.precio}</p>
-              <button>Add to cart</button>
+              <button onClick={() => addToCart(product)}>Add to cart</button>
             </div>
           </div>
         ))}

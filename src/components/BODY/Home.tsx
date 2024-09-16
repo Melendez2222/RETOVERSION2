@@ -36,11 +36,11 @@ const Home:React.FC<HomeProps> = ({addToCart}) => {
   const renderCategoryComponent = () => {
     const validIndex = selectedIndex !== null ? selectedIndex : 0;
     const categoryComponents: { [key: string]: JSX.Element } = {
-      'CAMISA': <Camisa selectedIndex={validIndex} products={productItems} />,
-      'PANTALON': <Pantalon selectedIndex={validIndex} products={productItems} />,
-      'CALZADO': <Calzado selectedIndex={validIndex} products={productItems} />,
-      'ASEO PERSONAL': <AseoPersonal selectedIndex={validIndex} products={productItems} />,
-      'LIMPIEZA': <Limpieza selectedIndex={validIndex} products={productItems} />,
+      'CAMISA': <Camisa selectedIndex={validIndex} products={productItems} addToCart={addToCart}/>,
+      'PANTALON': <Pantalon selectedIndex={validIndex} products={productItems} addToCart={addToCart}/>,
+      'CALZADO': <Calzado selectedIndex={validIndex} products={productItems} addToCart={addToCart}/>,
+      'ASEO PERSONAL': <AseoPersonal selectedIndex={validIndex} products={productItems} addToCart={addToCart}/>,
+      'LIMPIEZA': <Limpieza selectedIndex={validIndex} products={productItems} addToCart={addToCart}/>,
     };
     return categoryComponents[selectedCategory] || (
       <div className="container-items">

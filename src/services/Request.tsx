@@ -1,9 +1,12 @@
 import axios from "axios";
 import { Client, Detalle_Factura, FacturaI, Product } from "../components/BODY/Interfaces";
+import LoginModal from "../components/BODY/LoginModal";
+import { useState } from "react";
 const API_URL = 'https://localhost:7270/'
 let token: string | null = localStorage.getItem('token');
+let tokenExpiry: number | null = null;
 let idUser: string;
-export const setToken = (newToken: string) => {
+export const setToken= (newToken: string) => {
   token = newToken;
 };
 export const getToken = () => {
@@ -15,18 +18,25 @@ export const setIdUser = (newidUser: string) => {
 export const getIdUser = () => {
   return idUser;
 };
+
 export const LoginUsers = async (usuario: string, password: string): Promise<any> => {
 
   try {
     const response = await axios.post(`${API_URL}Auth/login?usuario=${usuario}&password=${password}`);
-    setToken(response.data.token);
+    token = response.data;
+    tokenExpiry = Date.now() + 2700 * 1000;
     localStorage.setItem('token', response.data.token);
+    localStorage.setItem('tokenExpiry', tokenExpiry.toString());
     return response.status;
   } catch (error) {
     console.error('Error fetching products:', error);
     throw error;
   }
 }
+
+
+ 
+
 export const listAllProducts = async () => {
   try {
     const response = await axios.get(`${API_URL}Product/ListAll`);
@@ -37,18 +47,21 @@ export const listAllProducts = async () => {
   }
 };
 export const ListClient = async () => {
-  try {
-    const response = await axios.get(`${API_URL}CLIENT/ClientAll`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    throw error;
-  }
+  
+    try {
+      const response = await axios.get(`${API_URL}CLIENT/ClientAll`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      throw error;
+    }
+  
 };
+
 export const LastFactureid = async () => {
   try {
     const response = await axios.get(`${API_URL}RECEIPT/LastFactura`, {

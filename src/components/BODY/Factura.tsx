@@ -6,6 +6,7 @@ import { CreateDetalleFactura, CreateFactura, LastFactureid, listAllProducts, Li
 import ClientModal from './Clients/ClientModal';
 
 const Factura = () => {
+  
   const [alertOpen, setAlertOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [clienteSeleccionado, setClienteSeleccionado] = useState<ClienteSeleccionado | {}>({});

@@ -1,13 +1,19 @@
 import logo from './../../assets/logo.svg'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { HeaderProps } from '../BODY/Interfaces'
 import { useState } from 'react'
 
 import './Header.css'
 import LoginModal from '../BODY/LoginModal';
+import { useAuth } from '../../auth/AuthProv'
+import App from '../../App'
 
-const Header:React.FC<HeaderProps> = (cartItems) => {
+const Header: React.FC<HeaderProps> = (cartItems) => {
   const [showModal, setShowModal] = useState(false);
+  const auth = useAuth();
+  if (auth.isAuthenticated) {
+    return App();
+  }
   const handleOpenModal = () => {
     setShowModal(true);
   };
@@ -37,9 +43,9 @@ const Header:React.FC<HeaderProps> = (cartItems) => {
       <section className='search'>
         <div className='container c_flex'>
           <Link to='/'>
-          <div className='logo width '>
-            <img src={logo} alt='' />
-          </div>
+            <div className='logo width '>
+              <img src={logo} alt='' />
+            </div>
           </Link>
 
           <div className='search-box f_flex'>
@@ -47,15 +53,15 @@ const Header:React.FC<HeaderProps> = (cartItems) => {
             <input type='text' placeholder='Search and hit enter...' />
             <span>All Category</span>
           </div>
-         {/* <Link to='/login'> */}
+          {/* <Link to='/login'> */}
           <div className='icon f_flex width' onClick={handleOpenModal}>
             <i className='fa fa-user icon-circle'></i>
           </div>
-         {/* </Link> */}
+          {/* </Link> */}
           <div className='cart'>
             <Link to='/cart'>
-            <i className='fa fa-shopping-bag icon-circle'></i>
-            <span>{cartItems.cartItems.length === 0 ? "" : cartItems.cartItems.length}</span>
+              <i className='fa fa-shopping-bag icon-circle'></i>
+              <span>{cartItems.cartItems.length === 0 ? "" : cartItems.cartItems.length}</span>
             </Link>
           </div>
         </div>
@@ -70,7 +76,7 @@ const Header:React.FC<HeaderProps> = (cartItems) => {
           </div>
         </div>
       </section>
-      <LoginModal open={showModal} onClose={handleCloseModal}/>
+      <LoginModal open={showModal} onClose={handleCloseModal} />
     </>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import {LimpiezaProps} from "./Interfaces"
-const Limpieza: React.FC<LimpiezaProps> = ({selectedIndex, products}) => {
+const Limpieza: React.FC<LimpiezaProps> = ({selectedIndex, products,addToCart}) => {
   
   const filteredItems = products.filter(item => item.categoria_pro_id === selectedIndex);
   return (
@@ -20,7 +20,7 @@ const Limpieza: React.FC<LimpiezaProps> = ({selectedIndex, products}) => {
                 <i className='fa fa-star'></i>
               </div>
               <p className="price">${product.precio}</p>
-              <button>Add to cart</button>
+              <button onClick={() => addToCart(product)}>Add to cart</button>
             </div>
           </div>
         ))}

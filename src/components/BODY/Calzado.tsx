@@ -1,7 +1,7 @@
 import React from 'react'
 import { CalzadoProps } from './Interfaces';
 
-const Calzado: React.FC<CalzadoProps>  = ({selectedIndex, products}) => {
+const Calzado: React.FC<CalzadoProps>  = ({selectedIndex, products,addToCart}) => {
   const filteredItems = products.filter(item => item.categoria_pro_id === selectedIndex);
   return (
     <div className="container-items">
@@ -20,7 +20,7 @@ const Calzado: React.FC<CalzadoProps>  = ({selectedIndex, products}) => {
                 <i className='fa fa-star'></i>
               </div>
               <p className="price">${product.precio}</p>
-              <button>Add to cart</button>
+              <button onClick={() => addToCart(product)}>Add to cart</button>
             </div>
           </div>
         ))}

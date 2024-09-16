@@ -1,6 +1,6 @@
 import { CamisaProps } from "./Interfaces"
 
-const Camisa: React.FC<CamisaProps>  = ({selectedIndex, products}) => {
+const Camisa: React.FC<CamisaProps>  = ({selectedIndex, products, addToCart}) => {
   const filteredItems = products.filter(item => item.categoria_pro_id === selectedIndex);
   return (
     <div className="container-items">
@@ -19,7 +19,7 @@ const Camisa: React.FC<CamisaProps>  = ({selectedIndex, products}) => {
                 <i className='fa fa-star'></i>
               </div>
               <p className="price">${product.precio}</p>
-              <button>Add to cart</button>
+              <button onClick={() => addToCart(product)}>Add to cart</button>
             </div>
           </div>
         ))}
