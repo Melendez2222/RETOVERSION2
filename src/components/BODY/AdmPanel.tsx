@@ -1,5 +1,5 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Para redirigir si no hay token
 import ProductCrud from './ProductCrud';
 import SubMenuAdm from './SubMenuAdm';
 import './Home.css';
@@ -7,8 +7,17 @@ import ClienteCrud from './ClienteCrud';
 import Factura from './Factura';
 
 const AdmPanel = () => {
-
   const [selectedMenu, setSelectedMenu] = useState<string>('');
+  const navigate = useNavigate(); 
+  
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    console.log("aasdad", token)
+    if (!token) {
+      navigate('/');
+    }
+  }, [navigate]); 
+
   const renderCategoryComponent = () => {
     switch (selectedMenu) {
       case 'Productos':
@@ -17,8 +26,11 @@ const AdmPanel = () => {
         return <ClienteCrud />;
       case 'Facturas':
         return <Factura />;
+      default:
+        return null; 
     }
   }
+
   return (
     <section className='home'>
       <div className='container d_flex'>
@@ -26,7 +38,7 @@ const AdmPanel = () => {
         {renderCategoryComponent()}
       </div>
     </section>
-  )
+  );
 }
 
-export default AdmPanel
+export default AdmPanel;

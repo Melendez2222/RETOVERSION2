@@ -4,7 +4,6 @@ import LoginModal from "../components/BODY/LoginModal";
 import { useState } from "react";
 const API_URL = 'https://localhost:7270/'
 let token: string | null = localStorage.getItem('token');
-let tokenExpiry: number | null = null;
 let idUser: string;
 export const setToken= (newToken: string) => {
   token = newToken;
@@ -17,26 +16,20 @@ export const setIdUser = (newidUser: string) => {
 };
 export const getIdUser = () => {
   return idUser;
-};
+};                     
 
 export const LoginUsers = async (usuario: string, password: string): Promise<any> => {
 
   try {
     const response = await axios.post(`${API_URL}Auth/login?usuario=${usuario}&password=${password}`);
     token = response.data;
-    tokenExpiry = Date.now() + 2700 * 1000;
     localStorage.setItem('token', response.data.token);
-    localStorage.setItem('tokenExpiry', tokenExpiry.toString());
     return response.status;
   } catch (error) {
     console.error('Error fetching products:', error);
     throw error;
   }
 }
-
-
- 
-
 export const listAllProducts = async () => {
   try {
     const response = await axios.get(`${API_URL}Product/ListAll`);

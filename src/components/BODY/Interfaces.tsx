@@ -40,11 +40,16 @@ export interface Facturs {
 export interface LoginModalProps {
     open: boolean;
     onClose: () => void;
-    onLoginSuccess?: () => void;
 }
-export interface AuthProvProps{
+export interface AuthProvProps {
     children: React.ReactNode;
 }
+export interface AuthContextType {
+    isAuthenticated: boolean;
+    login: () => void;
+    logout: () => void;
+}
+
 export interface ClientModalProps {
     open: boolean;
     onClose: () => void;

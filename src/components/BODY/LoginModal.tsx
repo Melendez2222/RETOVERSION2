@@ -3,21 +3,17 @@ import { useRef, useEffect, useState } from 'react'
 import './Login.css'
 import { LoginModalProps } from './Interfaces';
 import { LoginUsers } from '../../services/Request';
-import { useNavigate } from 'react-router-dom';
 
-const LoginModal: React.FC<LoginModalProps> = ({ open, onClose, onLoginSuccess }) => {
+const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const navigate= useNavigate();
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
             const response = await LoginUsers(username, password);
-            if(response===200){
-                onLoginSuccess?.();
-                onClose();
-                navigate('/AdmPanel');
-                
+            console.table(response);
+            if(response==200){
+                onClose();                
             }
         } catch (error) {
             console.error('Error al iniciar sesión:', error);

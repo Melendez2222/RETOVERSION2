@@ -7,6 +7,7 @@ import {Routes, Route } from "react-router-dom"
 import Cart from './components/BODY/Cart'
 import { Product } from './components/BODY/Interfaces'
 import AdmPanel from './components/BODY/AdmPanel'
+import ProtectedRoute from './route/ProtectedRoute'
 
 
 function App() {
@@ -51,7 +52,7 @@ function App() {
         <Route path="/" element={<Home addToCart={addToCart} />}>
         </Route>
         <Route path='/Cart' element={<Cart addToCart={addToCart} cartItems={cartItems} deleteQty={deleteQty} decreaseQty={decreaseQty}/>} />
-        <Route path='/AdmPanel' element={<AdmPanel/>}/>
+        <Route path='/AdmPanel' element={<ProtectedRoute><AdmPanel/></ProtectedRoute>}/>
       </Routes>
       <Footer />
     </>
