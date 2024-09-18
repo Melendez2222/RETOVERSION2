@@ -1,15 +1,23 @@
 import logo from './../../assets/logo.svg'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { HeaderProps } from '../BODY/Interfaces'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import './Header.css'
 import LoginModal from '../BODY/LoginModal';
 
 const Header:React.FC<HeaderProps> = (cartItems) => {
+  const navigate = useNavigate(); 
   const [showModal, setShowModal] = useState(false);
   const handleOpenModal = () => {
-    setShowModal(true);
+    
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setShowModal(true);
+      }else{
+        navigate("/AdmPanel");
+      }
+    
   };
 
   const handleCloseModal = () => {

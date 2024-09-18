@@ -64,19 +64,19 @@ const ProductCrud = () => {
           </thead>
           <tbody>
             {productItems.map((product, index) => (
-              <tr key={product.iD_PRODUCTO}>
+              <tr key={product.id_Product}>
                 <th scope="row">{index + 1}</th>
-                <td>{product.codigo}</td>
-                <td>{product.nombre}</td>
-                <td>{product.categoria_pro_id}</td>
-                <td>{product.precio}</td>
+                <td>{product.productCode}</td>
+                <td>{product.productName}</td>
+                <td>{product.catProductId}</td>
+                <td>{product.price}</td>
                 <td>{product.stock}</td>
-                <td>{product.activo === true ? 'Activo' : 'Inactivo'}</td>
-                <td>{product.fecha_Creacion}</td>
+                <td>{product.productActive === true ? 'Activo' : 'Inactivo'}</td>
+                <td>{product.createdAt}</td>
                 <td>
                   <img
-                    src={`./src/assets/product/${product.codigo}.jpg`}
-                    alt={product.nombre}
+                    src={`./src/assets/product/${product.productCode}.jpg`}
+                    alt={product.productName}
                     style={{ width: '100px', height: '100px' }}
                   />
                 </td>

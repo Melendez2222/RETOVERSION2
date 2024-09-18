@@ -45,12 +45,12 @@ const Home:React.FC<HomeProps> = ({addToCart}) => {
     return categoryComponents[selectedCategory] || (
       <div className="container-items">
         {productItems.map((product) => (
-          <div className="item" key={product.iD_PRODUCTO}>
+          <div className="item" key={product.id_Product}>
             <figure>
-              <img src={`./src/assets/product/${product.codigo}.jpg`} alt={product.nombre} />
+              <img src={`./src/assets/product/${product.productCode}.jpg`} alt={product.productName} />
             </figure>
             <div className="info-product">
-              <h2>{product.nombre}</h2>
+              <h2>{product.productName}</h2>
               <div className='rate'>
                 <i className='fa fa-star'></i>
                 <i className='fa fa-star'></i>
@@ -58,7 +58,8 @@ const Home:React.FC<HomeProps> = ({addToCart}) => {
                 <i className='fa fa-star'></i>
                 <i className='fa fa-star'></i>
               </div>
-              <p className="price">${product.precio}</p>
+              <p className="price">${product.price}</p>
+              <p className="price">Stock:{product.stock}</p>
               <button onClick={() => addToCart(product)}>Add to cart</button>
             </div>
           </div>

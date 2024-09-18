@@ -1,13 +1,13 @@
 
 export interface Product {
-    iD_PRODUCTO: number;
-    nombre: string;
-    codigo: string;
-    precio: number;
+    id_Product: number;
+    productName: string;
+    productCode: string;
+    price: number;
     stock: number;
-    activo?: boolean;
-    categoria_pro_id: number;
-    fecha_Creacion: string;
+    productActive?: boolean;
+    catProductId: string;
+    createdAt: string;
     qty?: number;
 }
 export interface Client {
@@ -21,6 +21,10 @@ export interface Client {
     activo?: boolean;
     fecha_Creacion: string;
     qty?: number;
+}
+export interface Loginuser{
+    username:string;
+    password:string;
 }
 export interface ClienteSeleccionado {
     rucdni: string;

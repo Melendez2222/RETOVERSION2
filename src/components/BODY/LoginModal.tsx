@@ -1,20 +1,23 @@
 import { Dialog, DialogContent } from '@mui/material';
 import { useRef, useEffect, useState } from 'react'
 import './Login.css'
-import { LoginModalProps } from './Interfaces';
+import { LoginModalProps, Loginuser } from './Interfaces';
 import { LoginUsers } from '../../services/Request';
 
 const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [loginuser,setLoginUser] =useState<Loginuser>({
+        username:"",
+        password:"",
+    })
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            const response = await LoginUsers(username, password);
-            console.table(response);
+            const response = await LoginUsers(loginuser);
+            // console.table(response);
             if(response==200){
                 onClose();                
             }
+
         } catch (error) {
             console.error('Error al iniciar sesión:', error);
         }
@@ -71,15 +74,15 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
                                     <i className="fas fa-user"></i>
                                     <input type="text"
                                         placeholder="Username"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)} />
+                                        value={loginuser.username}
+                                        onChange={(e) => setLoginUser({ ...loginuser, username: e.target.value })} />
                                 </div>
                                 <div className="input-field">
                                     <i className="fas fa-lock"></i>
                                     <input type="password"
                                         placeholder="Password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)} />
+                                        value={loginuser.password}
+                                        onChange={(e) => setLoginUser({ ...loginuser, password: e.target.value })} />
                                 </div>
                                 <input type="submit" value="Login" className="btn solid" />
 
