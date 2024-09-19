@@ -1,9 +1,5 @@
 import axios from "axios";
-import jwt_decode from 'jwt-decode';
 import { Client, Detalle_Factura, FacturaI, Loginuser, Product } from "../components/BODY/Interfaces";
-import LoginModal from "../components/BODY/LoginModal";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 const API_URL = 'https://localhost:7296/'
 let token: string | null = localStorage.getItem('token');
 let idUser: string;
