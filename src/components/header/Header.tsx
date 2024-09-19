@@ -10,7 +10,7 @@ const Header:React.FC<HeaderProps> = (cartItems) => {
   const navigate = useNavigate(); 
   const [showModal, setShowModal] = useState(false);
   const handleOpenModal = () => {
-    
+    console.log(localStorage.getItem('token'));
       const token = localStorage.getItem('token');
       if (!token) {
         setShowModal(true);
