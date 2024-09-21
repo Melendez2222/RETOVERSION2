@@ -1,41 +1,61 @@
-import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Select, Snackbar, TextField } from '@mui/material'
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Select, SelectChangeEvent, Snackbar, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { Product, ProductModalProps } from '../Interfaces'
-import { CreateProduct, UpdateProduct } from '../../../services/Request';
+import { Category, Product, ProductModalProps } from '../Interfaces'
+import { CreateProduct, ListCategory, UpdateProduct } from '../../../services/Request';
 
 const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, product }) => {
     const [alertOpen, setAlertOpen] = useState(false);
+    const [categorias, setCategorias] = useState<Category[]>([]);
+    const [selectedCategoryId, setSelectedCategoryId] = useState<number | string>('');
     const [formData, setFormData] = useState<Product>({
-        iD_PRODUCTO: 0,
-        nombre: '',
-        codigo: '',
-        precio: 0.00,
+        id_Product: 0,
+        productName: '',
+        productCode: '',
+        price: 0,
         stock: 0,
-        activo: undefined,
-        categoria_pro_id: 0,
-        fecha_Creacion: ''
+        productActive: undefined,
+        category: '',
+        createdAt: '',
     });
+    const fetchCategory = async () => {
+        try {
+            const response = await ListCategory();
+            setCategorias(response);
+        } catch (error) {
+            alert('Error fetching products:');
+            console.log(error);
+        }
+    };
+    useEffect(()=>{
+        fetchCategory();
+    },[]);
     useEffect(() => {
+        
         if (product) {
             setFormData(product);
+            const preselectedCategory = categorias.find(cat => cat.catProductName === product.category);
+            if (preselectedCategory) {
+                setSelectedCategoryId(preselectedCategory.catProductId);
+                console.log('ID de la categoría preseleccionada:', preselectedCategory.catProductId);
+            }
         } else {
             setFormData({
-                iD_PRODUCTO: 0,
-                nombre: '',
-                codigo: '',
-                precio: 0.00,
+                id_Product: 0,
+                productName: '',
+                productCode: '',
+                price: 0,
                 stock: 0,
-                activo: undefined,
-                categoria_pro_id: 0,
-                fecha_Creacion: ''
+                productActive: undefined,
+                category: '',
+                createdAt: '',
             });
         }
-    }, [product]);
+    }, [product, categorias]);
     const handleSubmit = async () => {
         let response;
         try {
             if (product) {
-                response = await UpdateProduct(formData);
+                // response = await UpdateProduct(formData);
             } else {
                 response = await CreateProduct(formData);
             }
@@ -49,6 +69,19 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, prod
             console.error('Error:', error);
         }
     };
+    const handleCategoryChange = (event: SelectChangeEvent<string>) => {
+        const selectedCategoryname = event.target.value;
+        // console.log('cat selected:', selectedCategoryname);
+        const selectedCategoryid = categorias.find(cat => cat.catProductName == selectedCategoryname);
+        // console.log('id selected:', (categorias.find(cat => cat.catProductName == selectedCategoryname)));
+        if (selectedCategoryid) {
+            
+          setSelectedCategoryId(selectedCategoryid.catProductId);
+          
+          setFormData({ ...formData, category: selectedCategoryid.catProductName });
+          console.log('ID de la categoría seleccionada:', selectedCategoryId);
+        }
+      };
     return (
         <>
             <Dialog open={open} onClose={onClose}>
@@ -57,33 +90,38 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, prod
                     <TextField
                         label="CODIGO"
                         id='codigo'
-                        value={formData.codigo}
-                        onChange={(e) => setFormData({ ...formData, codigo: e.target.value })}
+                        value={formData.productCode}
+                        onChange={(e) => setFormData({ ...formData, productCode: e.target.value })}
                         fullWidth
                         margin="normal"
                     />
                     <TextField
                         label="NOMBRE"
                         id='nombre'
-                        value={formData.nombre}
-                        onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
+                        value={formData.productName}
+                        onChange={(e) => setFormData({ ...formData, productName: e.target.value })}
                         fullWidth
                         margin="normal"
                     />
-                    <TextField
-                        label="CATEGORIA"
+                    <Select
+                        labelId="category-select-label"
                         id='categoria_pro_id'
-                        value={formData.categoria_pro_id}
-                        onChange={(e) => setFormData({ ...formData, categoria_pro_id: parseFloat(e.target.value) || 0 })}
+                        value={formData.category}
+                        onChange={handleCategoryChange}
                         fullWidth
-                        margin="normal"
-                    />
+                    >
+                        {categorias.map((category) => (
+                            <MenuItem key={category.catProductId} value={category.catProductName}>
+                                {category.catProductName}
+                            </MenuItem>
+                        ))}
+                    </Select>
                     <TextField
                         label="PRECIO"
                         id='precio'
                         type="text"
-                        value={formData.precio}
-                        onChange={(e) => setFormData({ ...formData, precio: parseFloat(e.target.value) || 0.00 })}
+                        value={formData.price}
+                        onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0.00 })}
                         fullWidth
                         margin="normal"
                     />
@@ -98,8 +136,8 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, prod
                     <Select
                         label="Estado"
                         id="estado"
-                        value={formData.activo !== undefined ? (formData.activo ? 'Activo' : 'Inactivo') : 'Seleccione un estado'}
-                        onChange={(e) => setFormData({ ...formData, activo: e.target.value === 'Activo' })}
+                        value={formData.productActive !== undefined ? (formData.productActive ? 'Activo' : 'Inactivo') : 'Seleccione un estado'}
+                        onChange={(e) => setFormData({ ...formData, productActive: e.target.value === 'Activo' })}
                         fullWidth
                     >
                         <MenuItem value="Seleccione un estado" disabled>

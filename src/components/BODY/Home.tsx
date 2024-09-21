@@ -39,7 +39,7 @@ const Home:React.FC<HomeProps> = ({addToCart}) => {
       'CAMISA': <Camisa selectedIndex={validIndex} products={productItems} addToCart={addToCart}/>,
       'PANTALON': <Pantalon selectedIndex={validIndex} products={productItems} addToCart={addToCart}/>,
       'CALZADO': <Calzado selectedIndex={validIndex} products={productItems} addToCart={addToCart}/>,
-      'ASEO PERSONAL': <AseoPersonal selectedIndex={validIndex} products={productItems} addToCart={addToCart}/>,
+      'ASEO PERSONAL': <AseoPersonal selectedIndex={"ASEO_PERSONAL"} products={productItems} addToCart={addToCart}/>,
       'LIMPIEZA': <Limpieza selectedIndex={validIndex} products={productItems} addToCart={addToCart}/>,
     };
     return categoryComponents[selectedCategory] || (

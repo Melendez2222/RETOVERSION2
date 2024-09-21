@@ -1,7 +1,13 @@
 import axios from "axios";
-import { Client, Detalle_Factura, FacturaI, Loginuser, Product } from "../components/BODY/Interfaces";
+import { Client, Detalle_Factura, FacturaI, Loginuser, Product, ProductUpdate } from "../components/BODY/Interfaces";
+import { useAuth} from "./../auth/AuthProv"
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 const API_URL = 'https://localhost:7296/'
-let token: string | null = localStorage.getItem('token');
+declare global {
+  var token: string|null;
+}
+globalThis.token= localStorage.getItem('token');
 let idUser: string;
 // const navigate = useNavigate(); 
 export const setToken= (newToken: string) => {
@@ -32,13 +38,34 @@ apiClient.interceptors.request.use(
   error => Promise.reject(error)
 );
 apiClient.interceptors.response.use(
+  
   response => response,
   error => {
     if (error.response && error.response.status === 401) {
+      
       localStorage.removeItem('token');
       token = null;
-      alert('Tu sesión ha caducado. Por favor, vuelve a iniciar sesión.');
-      window.location.href = '/'; 
+      const { handle401 } = useAuth();
+      const navigate = useNavigate();
+      useEffect(() => {
+        const tokenData = JSON.parse(localStorage.getItem('tokenData') || '{}');
+        const expirationTime = new Date(tokenData.expires).getTime();
+        const currentTime = new Date().getTime();
+        const timeUntilExpiration = expirationTime - currentTime;
+
+        if (timeUntilExpiration > 0) {
+            const timer = setTimeout(() => {
+                handle401();
+                navigate('/');
+            }, timeUntilExpiration);
+
+            return () => clearTimeout(timer);
+        } else {
+            handle401();
+            navigate('/');
+        }
+    }, [handle401, navigate]);
+
     }
     return Promise.reject(error);
   }
@@ -62,9 +89,9 @@ export const LoginUsers = async (loginuser:Loginuser): Promise<any> => {
     });
     token = response.data;
     localStorage.setItem('token', response.data.token);
+    localStorage.setItem('tokenData', JSON.stringify(response));
     return response.status;
   } catch (error) {
-    console.error('Error fetching products:', error);
     throw error;
   }
 }
@@ -77,10 +104,19 @@ export const listAllProducts = async () => {
     throw error;
   }
 };
+export const ListCategory = async () => {
+  try {
+    const response = await axios.get(`${API_URL}CATEGORY/ListAll`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    throw error;
+  }
+};
 export const ListClient = async () => {
   
     try {
-      const response = await apiClient.get(`${API_URL}CLIENT/ListAll`, {
+      const response = await apiClient.get(`${API_URL}USER/ListAll `, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -108,7 +144,7 @@ export const LastFactureid = async () => {
 };
 export const UpdateClient = async (clientdata: Client) => {
   try {
-    const response = await apiClient.put(`${API_URL}CLIENT/Update`, clientdata, {
+    const response = await apiClient.put(`${API_URL}USER/Update`, clientdata, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -134,7 +170,7 @@ export const CreateClient = async (clientdata: Omit<Client, 'iD_CLIENTE' | 'fech
     throw error;
   }
 };
-export const UpdateProduct = async (producttdata: Product) => {
+export const UpdateProduct = async (producttdata: ProductUpdate) => {
   try {
     const response = await apiClient.put(`${API_URL}PRODUCT/Update`, producttdata, {
       headers: {

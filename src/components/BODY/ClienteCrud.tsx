@@ -53,21 +53,25 @@ const ClienteCrud = () => {
               <th scope="col">NOMBRE</th>
               <th scope="col">DIRECCION</th>
               <th scope="col">CORREO</th>
+              <th scope="col">TELEFONO</th>
               <th scope="col">ESTADO</th>
+              <th scope="col">ROL</th>
               <th scope="col">FECHA DE CREACION</th>
               <th scope="col">ACCION</th>
             </tr>
           </thead>
           <tbody>
             {clients.map((client, index) => (
-              <tr key={client.iD_CLIENTE}>
+              <tr key={client.userId}>
                 <th scope="row">{index + 1}</th>
-                <td>{client.rucdni}</td>
-                <td>{client.nombre}</td>
-                <td>{client.direccion}</td>
-                <td>{client.correo}</td>
-                <td>{client.activo === true ? 'Activo' : 'Inactivo'}</td>
-                <td>{client.fecha_Creacion}</td>
+                <td>{client.userRucDni}</td>
+                <td>{client.roleName}</td>
+                <td>{client.userAddress}</td>
+                <td>{client.userEmail}</td>
+                <td>{client.userPhone}</td>
+                <td>{client.roleName}</td>
+                <td>{client.userActive === true ? 'Activo' : 'Inactivo'}</td>
+                <td>{client.createdAt}</td>
                 <td>
                   <button type="button" className="btn btn-success" onClick={() => handleOpenModal(client)}>
                     EDITAR

@@ -6,22 +6,41 @@ export interface Product {
     price: number;
     stock: number;
     productActive?: boolean;
-    catProductId: string;
+    category: string;
     createdAt: string;
     qty?: number;
 }
+export interface ProductUpdate {
+    id_Product: number;
+    productCode: string;
+    productName: string;
+    catProductId: number;
+    price: number;
+    stock: number;
+    productActive?: boolean;
+}
+export interface Category{
+    catProductId:number,
+    catProductName:string,
+    catProductActive?:boolean,
+}
 export interface Client {
-    iD_CLIENTE: number;
-    rucdni: string;
-    nombre: string;
-    direccion: string;
-    correo: string;
-    usuario: string;
-    contraseña: string;
-    activo?: boolean;
-    fecha_Creacion: string;
+    userId: number;
+    userRucDni: string;
+    userName: string;
+    userAddress: string;
+    userEmail: string;
+    userPhone:number;
+    userUsuario:string;
+    userPassword:string;
+    userActive?: boolean;
+    createdAt: string;
+    roleName:string;
     qty?: number;
 }
+    export interface logincredentials{
+        token:string;
+    }
 export interface Loginuser{
     username:string;
     password:string;
@@ -52,6 +71,7 @@ export interface AuthContextType {
     isAuthenticated: boolean;
     login: () => void;
     logout: () => void;
+    handle401:()=>void;
 }
 
 export interface ClientModalProps {
@@ -79,7 +99,7 @@ export interface CartProps {
     cartItems: Product[];
 }
 export interface AseoProps {
-    selectedIndex: number;
+    selectedIndex: string;
     products: Product[];
     addToCart: (product: Product) => void;
 }

@@ -2,34 +2,40 @@ import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuI
 import React, { useEffect, useState } from 'react'
 import { Client, ClientModalProps } from '../Interfaces'
 import { CreateClient, UpdateClient } from '../../../services/Request'
+import { useNavigate } from 'react-router-dom'
 
 const ClientModal: React.FC<ClientModalProps> = ({ open, onClose, onSave, client }) => {
     const [alertOpen, setAlertOpen] = useState(false);
+    const navigate=useNavigate();
     const [formData, setFormData] = useState<Client>({
-        iD_CLIENTE: 0,
-        rucdni: '',
-        nombre: '',
-        direccion: '',
-        correo: '',
-        usuario: '',
-        contraseña: '',
-        activo: undefined,
-        fecha_Creacion: ''
+        userId: 0,
+                userRucDni: '',
+                userName: '',
+                userAddress: '',
+                userEmail: '',
+                userPhone:0,
+                roleName:'',
+                userUsuario:'',
+                userPassword:'',
+                userActive: undefined,
+                createdAt: ''
     });
     useEffect(() => {
         if (client) {
             setFormData(client);
         } else {
             setFormData({
-                iD_CLIENTE: 0,
-                rucdni: '',
-                nombre: '',
-                direccion: '',
-                correo: '',
-                usuario: '',
-                contraseña: '',
-                activo: undefined,
-                fecha_Creacion: ''
+                userId: 0,
+                userRucDni: '',
+                userName: '',
+                userAddress: '',
+                userEmail: '',
+                userPhone:0,
+                roleName:'',
+                userUsuario:'',
+                userPassword:'',
+                userActive: undefined,
+                createdAt: ''
             });
         }
     }, [client]);
@@ -49,6 +55,7 @@ const ClientModal: React.FC<ClientModalProps> = ({ open, onClose, onSave, client
 
         } catch (error) {
             console.error('Error:', error);
+            navigate("/");
         }
     };
     return (
@@ -59,24 +66,24 @@ const ClientModal: React.FC<ClientModalProps> = ({ open, onClose, onSave, client
                     <TextField
                         label="RUC O DNI"
                         id='rucdni'
-                        value={client?.rucdni}
-                        onChange={(e) => setFormData({ ...formData, rucdni: e.target.value })}
+                        value={client?.userRucDni}
+                        onChange={(e) => setFormData({ ...formData, userRucDni: e.target.value })}
                         fullWidth
                         margin="normal"
                     />
                     <TextField
                         label="Nombre o Razon social"
                         id='nombre'
-                        value={client?.nombre}
-                        onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
+                        value={client?.userName}
+                        onChange={(e) => setFormData({ ...formData, userName: e.target.value })}
                         fullWidth
                         margin="normal"
                     />
                     <TextField
                         label="Direccion"
                         id='direccion'
-                        value={client?.direccion}
-                        onChange={(e) => setFormData({ ...formData, direccion: e.target.value })}
+                        value={client?.userAddress}
+                        onChange={(e) => setFormData({ ...formData, userAddress: e.target.value })}
                         fullWidth
                         margin="normal"
                     />
@@ -84,32 +91,50 @@ const ClientModal: React.FC<ClientModalProps> = ({ open, onClose, onSave, client
                         label="Correo"
                         id='correo'
                         type="email"
-                        value={client?.correo}
-                        onChange={(e) => setFormData({ ...formData, correo: e.target.value })}
+                        value={client?.userEmail}
+                        onChange={(e) => setFormData({ ...formData, userEmail: e.target.value })}
+                        fullWidth
+                        margin="normal"
+                    />
+                    <TextField
+                        label="Correo"
+                        id='correo'
+                        type="email"
+                        value={client?.userPhone}
+                        onChange={(e) => setFormData({ ...formData, userPhone: Number(e.target.value) })}
+                        fullWidth
+                        margin="normal"
+                    />
+                    <TextField
+                        label="Correo"
+                        id='correo'
+                        type="email"
+                        value={client?.roleName}
+                        onChange={(e) => setFormData({ ...formData, roleName: e.target.value })}
                         fullWidth
                         margin="normal"
                     />
                     <TextField
                         label="Usuario"
                         id='usuario'
-                        value={formData.usuario}
-                        onChange={(e) => setFormData({ ...formData, usuario: e.target.value })}
+                        value={formData.userUsuario}
+                        onChange={(e) => setFormData({ ...formData, userUsuario: e.target.value })}
                         fullWidth
                         margin="normal"
                     />
                     <TextField
                         label="Contraseña"
                         id='contraseña'
-                        value={formData.contraseña}
-                        onChange={(e) => setFormData({ ...formData, contraseña: e.target.value })}
+                        value={formData.userPassword}
+                        onChange={(e) => setFormData({ ...formData, userPassword: e.target.value })}
                         fullWidth
                         margin="normal"
                     />
                     <Select
                         label="Estado"
                         id="estado"
-                        value={formData.activo !== undefined ? (formData.activo ? 'Activo' : 'Inactivo') : 'Seleccione un estado'}
-                        onChange={(e) => setFormData({ ...formData, activo: e.target.value === 'Activo' })}
+                        value={formData.userActive !== undefined ? (formData.userActive ? 'Activo' : 'Inactivo') : 'Seleccione un estado'}
+                        onChange={(e) => setFormData({ ...formData, userActive: e.target.value === 'Activo' })}
                         fullWidth
                     >
                         <MenuItem value="Seleccione un estado" disabled>

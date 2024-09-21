@@ -201,9 +201,9 @@
       border-radius: 10px 10px 0 0;
       transition: all 0.5s;
   }
-  table{
-      margin-left: 10%;
-  }
+  /* table{
+      margin-left: 5%;
+  } */
   .table td, .table th {
     text-align: center;
     padding: 0 10px;

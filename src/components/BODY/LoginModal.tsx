@@ -19,7 +19,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
             }
 
         } catch (error) {
-            console.error('Error al iniciar sesión:', error);
+            alert('CREDENCIALES INCORRECTAS');
         }
 
     };

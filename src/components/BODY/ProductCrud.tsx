@@ -68,7 +68,7 @@ const ProductCrud = () => {
                 <th scope="row">{index + 1}</th>
                 <td>{product.productCode}</td>
                 <td>{product.productName}</td>
-                <td>{product.catProductId}</td>
+                <td>{product.category}</td>
                 <td>{product.price}</td>
                 <td>{product.stock}</td>
                 <td>{product.productActive === true ? 'Activo' : 'Inactivo'}</td>
