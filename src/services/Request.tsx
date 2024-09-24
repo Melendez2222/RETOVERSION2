@@ -3,23 +3,20 @@ import { Client, Detalle_Factura, FacturaI, Loginuser, Product, ProductUpdate } 
 import { useAuth } from "./../auth/AuthProv"
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import Store ,{ RootState} from "./../Redux/store/Store";
 const API_URL = 'https://localhost:7296/'
 
-// declare global {
-//   var token: string | null;
-// }
-// globalThis.token = localStorage.getItem('token');
+
 let idUser: string;
-// const navigate = useNavigate(); 
-// export const setToken = (newToken: string) => {
-//   token = newToken;
-// };
-// export const getToken = () => {
-//   return token;
-// };
+const getToken = (): string | null => {
+  const state: RootState = Store.getState();
+  return state.token.value;
+};
+let token=getToken();
 export const setIdUser = (newidUser: string) => {
   idUser = newidUser;
 };
+
 export const getIdUser = () => {
   return idUser;
 };
@@ -29,16 +26,6 @@ const apiClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
-// apiClient.interceptors.request.use(
-  
-//   config => {
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-//     return config;
-//   },
-//   error => Promise.reject(error)
-// );
 apiClient.interceptors.response.use(
 
   response => response,
@@ -105,16 +92,21 @@ export const listAllProducts = async () => {
   }
 };
 export const ListCategory = async () => {
+  console.log("nuevaredux:  "+token);
   try {
-    const response = await axios.get(`${API_URL}CATEGORY/ListAll`);
+    const response = await axios.get(`${API_URL}CATEGORY/ListAll`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
     return response.data;
   } catch (error) {
     console.error('Error fetching products:', error);
     throw error;
   }
 };
-export const ListClient = async () => {
-  const { token } = useAuth();
+export const ListClient = async (token:string|null) => {
+  
   try {
     const response = await apiClient.get(`${API_URL}USER/ListAll `, {
       headers: {
@@ -130,7 +122,7 @@ export const ListClient = async () => {
 };
 
 export const LastFactureid = async () => {
-  const { token } = useAuth();
+ 
   try {
     const response = await apiClient.get(`${API_URL}INVOICE/LastFactura`, {
       headers: {
@@ -144,7 +136,7 @@ export const LastFactureid = async () => {
   }
 };
 export const UpdateClient = async (clientdata: Client) => {
-  const { token } = useAuth();
+
   try {
     const response = await apiClient.put(`${API_URL}USER/Update`, clientdata, {
       headers: {
@@ -159,7 +151,7 @@ export const UpdateClient = async (clientdata: Client) => {
   }
 };
 export const CreateClient = async (clientdata: Omit<Client, 'iD_CLIENTE' | 'fecha_Creacion' | 'qty' | 'activo'>) => {
-  const { token } = useAuth();
+ 
   try {
     const response = await apiClient.post(`${API_URL}CLIENT/Create`, clientdata, {
       headers: {
@@ -173,7 +165,7 @@ export const CreateClient = async (clientdata: Omit<Client, 'iD_CLIENTE' | 'fech
     throw error;
   }
 };
-export const UpdateProduct = async (producttdata: ProductUpdate,token:string|null) => {
+export const UpdateProduct = async (producttdata: ProductUpdate) => {
   
   try {
     const response = await apiClient.put(`${API_URL}PRODUCT/Update`, producttdata, {
@@ -189,7 +181,7 @@ export const UpdateProduct = async (producttdata: ProductUpdate,token:string|nul
   }
 };
 export const CreateProduct = async (producttdata: Omit<Product, 'iD_PRODUCTO' | 'fecha_Creacion' | 'qty' | 'activo'>) => {
-  const { token } = useAuth();
+ 
   try {
     const response = await apiClient.post(`${API_URL}PRODUCT/Create`, producttdata, {
       headers: {
@@ -204,7 +196,7 @@ export const CreateProduct = async (producttdata: Omit<Product, 'iD_PRODUCTO' | 
   }
 };
 export const CreateFactura = async (factura: FacturaI) => {
-  const { token } = useAuth();
+
   let response;
   try {
     response = await apiClient.post(`${API_URL}RECEIPT/CreateFactura`, factura, {
@@ -220,7 +212,7 @@ export const CreateFactura = async (factura: FacturaI) => {
   }
 }
 export const CreateDetalleFactura = async (detallefactura: Detalle_Factura) => {
-  const { token } = useAuth();
+
   let response;
   try {
     response = await apiClient.post(`${API_URL}INVOICE_DETAIL/CreateDetalleFactura`, detallefactura, {

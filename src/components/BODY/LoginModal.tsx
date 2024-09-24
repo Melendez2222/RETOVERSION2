@@ -26,7 +26,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
         }
 
     };
-    // Referencias para los botones y contenedor
+    // Referencias para los botone  s y contenedor
     const containerRef = useRef<HTMLDivElement>(null);
     const signInBtnRef = useRef<HTMLButtonElement>(null);
     const signUpBtnRef = useRef<HTMLButtonElement>(null);

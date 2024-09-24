@@ -1,14 +1,16 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { AuthContextType } from '../components/BODY/Interfaces';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setToken, clearToken } from '../Redux/tokenSlice';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
   const [expires, setExpires] = useState<Date | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const dispatch = useDispatch();
   const history = useNavigate();
 
   useEffect(() => {
@@ -18,7 +20,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (storedToken && storedExpires) {
       const expirationDate = new Date(storedExpires);
       if (expirationDate > new Date()) {
-        setToken(storedToken);
+        dispatch(setToken(storedToken));
         setExpires(expirationDate);
         setIsAuthenticated(true);
       } else {
@@ -26,7 +28,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     }
     setLoading(false);
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (expires) {
@@ -47,8 +49,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const handle401 = () => {
     setIsAuthenticated(false);
-    setToken(null);
     setExpires(null);
+    dispatch(clearToken());
     localStorage.removeItem('token');
     localStorage.removeItem('expires');
     alert('AUTORIZACION EXPIRADA O NO EXISTENTE!!!');
@@ -57,16 +59,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = (newToken: string, expirationDate: string) => {
     setIsAuthenticated(true);
-    setToken(newToken);
     setExpires(new Date(expirationDate));
+    dispatch(setToken(newToken));
     localStorage.setItem('token', newToken);
     localStorage.setItem('expires', expirationDate);
   };
 
   const logout = () => {
     setIsAuthenticated(false);
-    setToken(null);
     setExpires(null);
+    dispatch(clearToken());
     localStorage.removeItem('token');
     localStorage.removeItem('expires');
   };
@@ -76,7 +78,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, token, login, logout, handle401 }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout, handle401 }}>
       {children}
     </AuthContext.Provider>
   );

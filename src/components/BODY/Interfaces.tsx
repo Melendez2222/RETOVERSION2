@@ -69,7 +69,6 @@ export interface AuthProvProps {
 }
 export interface AuthContextType {
     isAuthenticated: boolean;
-    token: string | null
     login: (newToken: string, expirationDate: string) => void;
     logout: () => void;
     handle401:()=>void;

@@ -3,8 +3,10 @@ import { Client } from './Interfaces';
 import { ListClient } from '../../services/Request';
 import { Box, Button } from '@mui/material';
 import ClientModal from './Clients/ClientModal';
+import { useAuth } from '../../auth/AuthProv';
 
 const ClienteCrud = () => {
+  const {token}=useAuth();
   const [clients, setClients] = useState<Client[]>([]);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -22,7 +24,7 @@ const ClienteCrud = () => {
   };
   const fetchClients = async () => {
     try {
-      const response = await ListClient();
+      const response = await ListClient(token);
       setClients(response);
     } catch (error) {
       alert('Error fetching products:');

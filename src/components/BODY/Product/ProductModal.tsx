@@ -2,10 +2,9 @@ import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuI
 import React, { useEffect, useState } from 'react'
 import { Category, Product, ProductModalProps, ProductUpdate } from '../Interfaces'
 import { CreateProduct, ListCategory, UpdateProduct } from '../../../services/Request';
-import { useAuth } from '../../../auth/AuthProv';
 
 const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, product }) => {
-    const {token}=useAuth();
+    
     const [alertOpen, setAlertOpen] = useState(false);
     const [categorias, setCategorias] = useState<Category[]>([]);
     const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
@@ -84,7 +83,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, prod
                     stock: product.stock,
                     productActive: product.productActive
                 });
-                response = await UpdateProduct(updateData,token);
+                response = await UpdateProduct(updateData);
             } else {
                 response = await CreateProduct(formData);
             }
