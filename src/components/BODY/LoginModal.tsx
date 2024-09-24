@@ -3,19 +3,22 @@ import { useRef, useEffect, useState } from 'react'
 import './Login.css'
 import { LoginModalProps, Loginuser } from './Interfaces';
 import { LoginUsers } from '../../services/Request';
+import { useAuth } from '../../auth/AuthProv';
 
 const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
-    const [loginuser,setLoginUser] =useState<Loginuser>({
-        username:"",
-        password:"",
+    const { login } = useAuth();
+    const [loginuser, setLoginUser] = useState<Loginuser>({
+        username: "",
+        password: "",
     })
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            const response = await LoginUsers(loginuser);
+            const response = await LoginUsers(loginuser,login);
             // console.table(response);
-            if(response==200){
-                onClose();                
+            if (response) {
+                onClose();
+                
             }
 
         } catch (error) {
@@ -52,8 +55,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
             signUpBtn.removeEventListener('click', handleSignUp);
             signInBtn.removeEventListener('click', handleSignIn);
         };
+        
     }, []); // El array vacío asegura que este efecto se ejecute solo una vez
-
+    
     return (
         <Dialog open={open} onClose={onClose} sx={{
             '& .MuiDialog-paper': {

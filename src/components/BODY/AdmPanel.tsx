@@ -5,11 +5,11 @@ import SubMenuAdm from './SubMenuAdm';
 import './Home.css';
 import ClienteCrud from './ClienteCrud';
 import Factura from './Factura';
+import { useAuth } from '../../auth/AuthProv';
 
 const AdmPanel = () => {
   const [selectedMenu, setSelectedMenu] = useState<string>('');
   const navigate = useNavigate(); 
-  
   useEffect(() => {
     const token = localStorage.getItem('token');
     console.log("aasdad", token)

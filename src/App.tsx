@@ -14,10 +14,10 @@ function App() {
   const [cartItems, setCartItems] = useState<any[]>([]);
   const addToCart = (product: Product) => {
     setCartItems(prevItems => {
-      const productExists = prevItems.find(item => item.iD_PRODUCTO === product.id_Product);
+      const productExists = prevItems.find(item => item.id_Product === product.id_Product);
       if (productExists) {
         return prevItems.map(item =>
-          item.iD_PRODUCTO === product.id_Product ? { ...productExists, qty: (productExists.qty || 0) + 1 } : item
+          item.id_Product === product.id_Product ? { ...productExists, qty: (productExists.qty || 0) + 1 } : item
         );
       } else {
         return [...prevItems, { ...product, qty: 1 }];
@@ -26,18 +26,18 @@ function App() {
   };
 
   const deleteQty = (product: Product) => {
-    setCartItems(prevItems => prevItems.filter(item => item.iD_PRODUCTO !== product.id_Product));
+    setCartItems(prevItems => prevItems.filter(item => item.id_Product !== product.id_Product));
   };
 
   const decreaseQty = (product: Product) => {
     setCartItems(prevItems => {
-      const productExists = prevItems.find(item => item.iD_PRODUCTO === product.id_Product);
+      const productExists = prevItems.find(item => item.id_Product === product.id_Product);
       if (productExists) {
         if (productExists.qty === 1) {
-          return prevItems.filter(item => item.iD_PRODUCTO !== product.id_Product);
+          return prevItems.filter(item => item.id_Product !== product.id_Product);
         } else {
           return prevItems.map(item =>
-            item.iD_PRODUCTO === product.id_Product ? { ...productExists, qty: (productExists.qty || 0) - 1 } : item
+            item.id_Product === product.id_Product ? { ...productExists, qty: (productExists.qty || 0) - 1 } : item
           );
         }
       }

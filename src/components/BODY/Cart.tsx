@@ -5,7 +5,7 @@ import "./Cart.css"
 const Cart:React.FC<CartProps> = ({addToCart, cartItems, decreaseQty,deleteQty}) => {
     const totalPrice = cartItems.reduce((precio, item) => {
         const qty=item.qty?? 0;
-        const precioItem=item.precio?? 0;
+        const precioItem=item.price?? 0;
         return precio+qty*precioItem;
     }, 0).toFixed(2)
     return (
@@ -15,16 +15,16 @@ const Cart:React.FC<CartProps> = ({addToCart, cartItems, decreaseQty,deleteQty})
                     <div className='cart-details'>
                         {cartItems.length === 0 && <h1 className='no-items product'>No Product are add in Cart</h1>}
                         {cartItems.map((item) => {
-                            const productQty = ((item.precio?? 0) * (item.qty ?? 0)).toFixed(2)
+                            const productQty = ((item.price?? 0) * (item.qty ?? 0)).toFixed(2)
                             return (
-                                <div className='cart-list product d_flex' key={item.iD_PRODUCTO}>
+                                <div className='cart-list product d_flex' key={item.id_Product}>
                                     <div className='img'>
-                                        <img src={`./src/assets/product/${item.codigo}.jpg`} alt='' />
+                                        <img src={`./src/assets/product/${item.productCode}.jpg`} alt='' />
                                     </div>
                                     <div className='cart-details'>
-                                        <h3>{item.nombre}</h3>
+                                        <h3>{item.productName}</h3>
                                         <h4>
-                                            ${item.precio} * {item.qty}
+                                            ${item.price} * {item.qty}
                                             <span>${productQty}</span>
                                         </h4>
                                     </div>

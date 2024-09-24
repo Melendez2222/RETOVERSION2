@@ -5,7 +5,7 @@ const Categoria: React.FC<CategoriaProps> = ({ onSelectCategory }) => {
     { cateImg: "./src/assets/category/cat1.png", cateName: "CAMISA" },
     { cateImg: "./src/assets/category/cat2.png", cateName: "PANTALON" },
     { cateImg: "./src/assets/category/cat3.png", cateName: "CALZADO" },
-    { cateImg: "./src/assets/category/cat4.png", cateName: "ASEO PERSONAL" },
+    { cateImg: "./src/assets/category/cat4.png", cateName: "ASEO_PERSONAL" },
     { cateImg: "./src/assets/category/cat5.png", cateName: "LIMPIEZA" },
   ];
 

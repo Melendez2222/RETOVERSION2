@@ -12,12 +12,12 @@ import './Home.css';
 const Home:React.FC<HomeProps> = ({addToCart}) => {
   const [productItems, setProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<string | null>(null);
 
 
-  const handleSelectCategory = (category: string, index: number) => {
+  const handleSelectCategory = (category: string) => {
     setSelectedCategory(category);
-    setSelectedIndex(index);
+    setSelectedIndex(category);
   };
  
 
@@ -34,13 +34,13 @@ const Home:React.FC<HomeProps> = ({addToCart}) => {
     fetchProducts();
   }, []);
   const renderCategoryComponent = () => {
-    const validIndex = selectedIndex !== null ? selectedIndex : 0;
+    // const validIndex = selectedIndex !== null ? selectedInd  
     const categoryComponents: { [key: string]: JSX.Element } = {
-      'CAMISA': <Camisa selectedIndex={validIndex} products={productItems} addToCart={addToCart}/>,
-      'PANTALON': <Pantalon selectedIndex={validIndex} products={productItems} addToCart={addToCart}/>,
-      'CALZADO': <Calzado selectedIndex={validIndex} products={productItems} addToCart={addToCart}/>,
-      'ASEO PERSONAL': <AseoPersonal selectedIndex={"ASEO_PERSONAL"} products={productItems} addToCart={addToCart}/>,
-      'LIMPIEZA': <Limpieza selectedIndex={validIndex} products={productItems} addToCart={addToCart}/>,
+      'CAMISA': <Camisa selectedIndex={selectedCategory} products={productItems} addToCart={addToCart}/>,
+      'PANTALON': <Pantalon selectedIndex={selectedCategory} products={productItems} addToCart={addToCart}/>,
+      'CALZADO': <Calzado selectedIndex={selectedCategory} products={productItems} addToCart={addToCart}/>,
+      'ASEO_PERSONAL': <AseoPersonal selectedIndex={selectedCategory} products={productItems} addToCart={addToCart}/>,
+      'LIMPIEZA': <Limpieza selectedIndex={selectedCategory} products={productItems} addToCart={addToCart}/>,
     };
     return categoryComponents[selectedCategory] || (
       <div className="container-items">

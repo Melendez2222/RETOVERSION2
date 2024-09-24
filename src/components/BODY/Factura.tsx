@@ -69,16 +69,16 @@ const Factura = () => {
     });
   };
   const handleProductoChange = (index: number, value: number) => {
-    const productoSeleccionado = producto.find((p) => p.iD_PRODUCTO === value);
+    const productoSeleccionado = producto.find((p) => p.id_Product === value);
     if (!productoSeleccionado) return; // Asegura de que el producto exista
 
     // Crear una copia de los items actualizando el producto seleccionado
     const updatedItems = [...facture.items];
     updatedItems[index] = {
       ...updatedItems[index],
-      producto: productoSeleccionado.nombre,
-      precio: productoSeleccionado.precio,
-      subtotal: updatedItems[index].cantidad * productoSeleccionado.precio,
+      producto: productoSeleccionado.productName,
+      precio: productoSeleccionado.price,
+      subtotal: updatedItems[index].cantidad * productoSeleccionado.price,
     };
 
     // Calcular subtotal y convertir a número para evitar problemas de concatenación
@@ -115,7 +115,7 @@ const Factura = () => {
       idCliente
     }));
 
-    const cliente = clientes.find((c) => c.iD_CLIENTE === idCliente);
+    const cliente = clientes.find((c) => c.userId === idCliente);
     setClienteSeleccionado(cliente || {});
   };
   const handleEliminarItem = (index: number) => {
@@ -131,7 +131,7 @@ const Factura = () => {
   const handleCreateFactura = async () => {
     let response;
     const factura: FacturaI = {
-      cliente_id: selectedClient?.iD_CLIENTE || 0,
+      cliente_id: selectedClient?.userId || 0,
       personal_id: 1,
       subtotal: facture.subtotal,
       porcentaje_IGV: facture.porcentajeIGV
@@ -143,10 +143,10 @@ const Factura = () => {
     }
     if (response === 200) {
       for (const item of facture.items) {
-        const productSeleccionado = producto.find((p) => p.nombre === item.producto);
+        const productSeleccionado = producto.find((p) => p.productName === item.producto);
         const detallefactura: Detalle_Factura = {
           factura_id: facture.idFactura,
-          producto_id: productSeleccionado?.iD_PRODUCTO || 0,
+          producto_id: productSeleccionado?.id_Product || 0,
           cantidad: item.cantidad,
         };
         response = await CreateDetalleFactura(detallefactura);
@@ -188,8 +188,8 @@ const Factura = () => {
               <em>Seleccione un cliente</em>
             </MenuItem>
             {clientes.map((cliente) => (
-              <MenuItem key={cliente.iD_CLIENTE} value={cliente.iD_CLIENTE}>
-                {cliente.nombre}
+              <MenuItem key={cliente.userId} value={cliente.userId}>
+                {cliente.userName}
               </MenuItem>
             ))}
           </Select>
@@ -222,7 +222,7 @@ const Factura = () => {
                   <TableRow key={item.id}>
                     <TableCell>
                       <Select
-                        value={producto.find((p) => p.nombre === item.producto)?.iD_PRODUCTO || ''}
+                        value={producto.find((p) => p.productName === item.producto)?.id_Product || ''}
                         onChange={(e) => handleProductoChange(index, Number(e.target.value))}
                         displayEmpty
                         fullWidth
@@ -231,8 +231,8 @@ const Factura = () => {
                           <em>Seleccione un producto</em>
                         </MenuItem>
                         {producto.map((producto) => (
-                          <MenuItem key={producto.iD_PRODUCTO} value={producto.iD_PRODUCTO}>
-                            {producto.nombre}
+                          <MenuItem key={producto.id_Product} value={producto.id_Product}>
+                            {producto.productName}
                           </MenuItem>
                         ))}
                       </Select>

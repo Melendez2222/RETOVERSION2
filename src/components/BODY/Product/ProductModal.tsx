@@ -1,12 +1,23 @@
 import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Select, SelectChangeEvent, Snackbar, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { Category, Product, ProductModalProps } from '../Interfaces'
+import { Category, Product, ProductModalProps, ProductUpdate } from '../Interfaces'
 import { CreateProduct, ListCategory, UpdateProduct } from '../../../services/Request';
+import { useAuth } from '../../../auth/AuthProv';
 
 const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, product }) => {
+    const {token}=useAuth();
     const [alertOpen, setAlertOpen] = useState(false);
     const [categorias, setCategorias] = useState<Category[]>([]);
-    const [selectedCategoryId, setSelectedCategoryId] = useState<number | string>('');
+    const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
+    const [updateData,setUpdateData]=useState<ProductUpdate>({
+        id_Product:0,
+        productName:'',
+        productCode:'',
+        catProductId:0,
+        price:0,
+        stock:0,
+        productActive:undefined
+    });
     const [formData, setFormData] = useState<Product>({
         id_Product: 0,
         productName: '',
@@ -35,9 +46,18 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, prod
             setFormData(product);
             const preselectedCategory = categorias.find(cat => cat.catProductName === product.category);
             if (preselectedCategory) {
-                setSelectedCategoryId(preselectedCategory.catProductId);
-                console.log('ID de la categoría preseleccionada:', preselectedCategory.catProductId);
+                setSelectedCategoryId(preselectedCategory.catProductId)
+                setUpdateData({
+                    id_Product: product.id_Product,
+                    productName: product.productName,
+                    productCode: product.productCode,
+                    catProductId: preselectedCategory?.catProductId,
+                    price: product.price,
+                    stock: product.stock,
+                    productActive: product.productActive
+                });
             }
+            
         } else {
             setFormData({
                 id_Product: 0,
@@ -55,7 +75,16 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, prod
         let response;
         try {
             if (product) {
-                // response = await UpdateProduct(formData);
+                setUpdateData({
+                    id_Product: product.id_Product,
+                    productName: product.productName,
+                    productCode: product.productCode,
+                    catProductId: selectedCategoryId,
+                    price: product.price,
+                    stock: product.stock,
+                    productActive: product.productActive
+                });
+                response = await UpdateProduct(updateData,token);
             } else {
                 response = await CreateProduct(formData);
             }
@@ -78,9 +107,11 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, prod
             
           setSelectedCategoryId(selectedCategoryid.catProductId);
           
-          setFormData({ ...formData, category: selectedCategoryid.catProductName });
-          console.log('ID de la categoría seleccionada:', selectedCategoryId);
+          setUpdateData({...updateData,catProductId:selectedCategoryid.catProductId});
+          setFormData({...formData,category:selectedCategoryid.catProductName});
         }
+        
+        
       };
     return (
         <>
@@ -91,7 +122,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, prod
                         label="CODIGO"
                         id='codigo'
                         value={formData.productCode}
-                        onChange={(e) => setFormData({ ...formData, productCode: e.target.value })}
+                        onChange={(e) => setUpdateData({ ...updateData, productCode: e.target.value })}
                         fullWidth
                         margin="normal"
                     />
@@ -99,7 +130,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, prod
                         label="NOMBRE"
                         id='nombre'
                         value={formData.productName}
-                        onChange={(e) => setFormData({ ...formData, productName: e.target.value })}
+                        onChange={(e) => setUpdateData({ ...updateData, productName: e.target.value })}
                         fullWidth
                         margin="normal"
                     />
@@ -121,7 +152,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, prod
                         id='precio'
                         type="text"
                         value={formData.price}
-                        onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0.00 })}
+                        onChange={(e) => setUpdateData({ ...updateData, price: parseFloat(e.target.value) || 0.00 })}
                         fullWidth
                         margin="normal"
                     />
@@ -129,7 +160,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, prod
                         label="STOCK"
                         id='stock'
                         value={formData.stock}
-                        onChange={(e) => setFormData({ ...formData, stock: parseFloat(e.target.value) || 0.00 })}
+                        onChange={(e) => setUpdateData({ ...updateData, stock: parseFloat(e.target.value) || 0.00 })}
                         fullWidth
                         margin="normal"
                     />
@@ -137,7 +168,11 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, prod
                         label="Estado"
                         id="estado"
                         value={formData.productActive !== undefined ? (formData.productActive ? 'Activo' : 'Inactivo') : 'Seleccione un estado'}
-                        onChange={(e) => setFormData({ ...formData, productActive: e.target.value === 'Activo' })}
+                        onChange={(e) => {
+                            const newvalue=e.target.value === 'Activo';
+                            setUpdateData({ ...updateData, productActive: newvalue});
+                            setFormData({...formData,productActive:newvalue})
+                        }}
                         fullWidth
                     >
                         <MenuItem value="Seleccione un estado" disabled>

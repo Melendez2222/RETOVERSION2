@@ -69,7 +69,8 @@ export interface AuthProvProps {
 }
 export interface AuthContextType {
     isAuthenticated: boolean;
-    login: () => void;
+    token: string | null
+    login: (newToken: string, expirationDate: string) => void;
     logout: () => void;
     handle401:()=>void;
 }
@@ -104,22 +105,22 @@ export interface AseoProps {
     addToCart: (product: Product) => void;
 }
 export interface CalzadoProps {
-    selectedIndex: number;
+    selectedIndex: string;
     products: Product[];
     addToCart: (product: Product) => void;
 }
 export interface CamisaProps {
-    selectedIndex: number;
+    selectedIndex: string;
     products: Product[];
     addToCart: (product: Product) => void;
 }
 export interface LimpiezaProps {
-    selectedIndex: number;
+    selectedIndex: string;
     products: Product[];
     addToCart: (product: Product) => void;
 }
 export interface PantalonProps {
-    selectedIndex: number;
+    selectedIndex: string;
     products: Product[];
     addToCart: (product: Product) => void;
 }
