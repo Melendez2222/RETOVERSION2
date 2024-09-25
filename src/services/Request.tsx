@@ -106,7 +106,7 @@ export const ListCategory = async () => {
     throw error;
   }
 };
-export const ListClient = async (token:string|null) => {
+export const ListClient = async () => {
   
   try {
     const response = await apiClient.get(`${API_URL}USER/ListAll `, {

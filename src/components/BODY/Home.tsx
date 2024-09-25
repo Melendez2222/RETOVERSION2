@@ -8,12 +8,14 @@ import Pantalon from './Pantalon';
 import { Product,HomeProps  } from "./Interfaces";
 import {listAllProducts} from "./../../services/Request"
 import './Home.css';
+import { useDispatch } from "react-redux";
+import { addToCart } from '../../Redux/cartSlice';
 
-const Home:React.FC<HomeProps> = ({addToCart}) => {
+const Home:React.FC<HomeProps> = () => {
   const [productItems, setProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedIndex, setSelectedIndex] = useState<string | null>(null);
-
+  const dispatch = useDispatch();
 
   const handleSelectCategory = (category: string) => {
     setSelectedCategory(category);
@@ -34,13 +36,12 @@ const Home:React.FC<HomeProps> = ({addToCart}) => {
     fetchProducts();
   }, []);
   const renderCategoryComponent = () => {
-    // const validIndex = selectedIndex !== null ? selectedInd  
     const categoryComponents: { [key: string]: JSX.Element } = {
-      'CAMISA': <Camisa selectedIndex={selectedCategory} products={productItems} addToCart={addToCart}/>,
-      'PANTALON': <Pantalon selectedIndex={selectedCategory} products={productItems} addToCart={addToCart}/>,
-      'CALZADO': <Calzado selectedIndex={selectedCategory} products={productItems} addToCart={addToCart}/>,
-      'ASEO_PERSONAL': <AseoPersonal selectedIndex={selectedCategory} products={productItems} addToCart={addToCart}/>,
-      'LIMPIEZA': <Limpieza selectedIndex={selectedCategory} products={productItems} addToCart={addToCart}/>,
+      'CAMISA': <Camisa selectedIndex={selectedCategory} products={productItems} addToCart={(product) => dispatch(addToCart(product))}/>,
+      'PANTALON': <Pantalon selectedIndex={selectedCategory} products={productItems} addToCart={(product) => dispatch(addToCart(product))}/>,
+      'CALZADO': <Calzado selectedIndex={selectedCategory} products={productItems} addToCart={(product) => dispatch(addToCart(product))}/>,
+      'ASEO_PERSONAL': <AseoPersonal selectedIndex={selectedCategory} products={productItems} addToCart={(product) => dispatch(addToCart(product))}/>,
+      'LIMPIEZA': <Limpieza selectedIndex={selectedCategory} products={productItems} addToCart={(product) => dispatch(addToCart(product))}/>,
     };
     return categoryComponents[selectedCategory] || (
       <div className="container-items">
@@ -60,7 +61,7 @@ const Home:React.FC<HomeProps> = ({addToCart}) => {
               </div>
               <p className="price">${product.price}</p>
               <p className="price">Stock:{product.stock}</p>
-              <button onClick={() => addToCart(product)}>Add to cart</button>
+              <button onClick={() => dispatch(addToCart(product))}>Add to cart</button>
             </div>
           </div>
         ))}

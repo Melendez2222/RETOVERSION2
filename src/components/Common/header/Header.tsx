@@ -2,26 +2,33 @@ import logo from './../../../assets/logo.svg'
 import { Link, useNavigate } from 'react-router-dom'
 import { HeaderProps } from '../../BODY/Interfaces'
 import { useState } from 'react'
-
 import './Header.css'
 import LoginModal from '../../BODY/LoginModal';
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../Redux'
+import AdminSubMenu from './AdminsubMenu'
 
-const Header:React.FC<HeaderProps> = (cartItems) => {
+const Header:React.FC<HeaderProps> = () => {
   const navigate = useNavigate(); 
   const [showModal, setShowModal] = useState(false);
+  const [showSubMenu, setShowSubMenu] = useState(false);
+  const cartItems = useSelector((state: RootState) => state.cart.items);
   const handleOpenModal = () => {
-    // console.log(localStorage.getItem('token'));
       const token = localStorage.getItem('token');
       if (!token) {
         setShowModal(true);
       }else{
-        navigate("/AdmPanel");
+        // navigate("/AdmPanel");
+        setShowSubMenu(!showSubMenu);
       }
     
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
+  };
+  const handleCloseSubMenu = () => {
+    setShowSubMenu(false);
   };
   return (
     <>
@@ -58,12 +65,14 @@ const Header:React.FC<HeaderProps> = (cartItems) => {
          {/* <Link to='/login'> */}
           <div className='icon f_flex width' onClick={handleOpenModal}>
             <i className='fa fa-user icon-circle'></i>
+            {showSubMenu && <AdminSubMenu onClose={handleCloseSubMenu} />}
           </div>
          {/* </Link> */}
           <div className='cart'>
             <Link to='/cart'>
             <i className='fa fa-shopping-bag icon-circle'></i>
-            <span>{cartItems.cartItems.length === 0 ? "" : cartItems.cartItems.length}</span>
+            {/* <span>{cartItems.cartItems.length === 0 ? "" : cartItems.cartItems.length}</span> */}
+            <span>{cartItems.length === 0 ? "" : cartItems.length}</span>
             </Link>
           </div>
         </div>

@@ -87,16 +87,16 @@ export interface ProductModalProps {
     product: Product | null;
 }
 export interface HeaderProps {
-    cartItems: any[];
+    // cartItems: any[];
 }
 export interface HomeProps {
-    addToCart: (product: Product) => void;
+    
 }
 export interface CartProps {
-    addToCart: (product: Product) => void;
-    deleteQty: (product: Product) => void;
-    decreaseQty: (product: Product) => void;
-    cartItems: Product[];
+    // addToCart: (product: Product) => void;
+    // deleteQty: (product: Product) => void;
+    // decreaseQty: (product: Product) => void;
+    // cartItems: Product[];
 }
 export interface AseoProps {
     selectedIndex: string;

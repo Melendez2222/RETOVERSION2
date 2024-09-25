@@ -1,8 +1,13 @@
 import React from 'react'
 import { CartProps } from './Interfaces'
 import "./Cart.css"
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../Redux';
+import { addToCart, decreaseQty, deleteQty } from '../../Redux/cartSlice';
 
-const Cart:React.FC<CartProps> = ({addToCart, cartItems, decreaseQty,deleteQty}) => {
+const Cart:React.FC<CartProps> = () => {
+    const cartItems = useSelector((state: RootState) => state.cart.items);
+    const dispatch: AppDispatch = useDispatch();
     const totalPrice = cartItems.reduce((precio, item) => {
         const qty=item.qty?? 0;
         const precioItem=item.price?? 0;
@@ -30,15 +35,15 @@ const Cart:React.FC<CartProps> = ({addToCart, cartItems, decreaseQty,deleteQty})
                                     </div>
                                     <div className='cart-items-function'>
                                         <div className='removeCart'>
-                                            <button className='removeCart' onClick={() => deleteQty(item)}>
+                                            <button className='removeCart' onClick={() => dispatch(deleteQty(item.id_Product))}>
                                                 <i className='fa-solid fa-xmark'></i>
                                             </button>
                                         </div>
                                         <div className='cartControl d_flex'>
-                                            <button className='incCart' onClick={() => addToCart(item)}>
+                                            <button className='incCart' onClick={() => dispatch(addToCart(item))}>
                                                 <i className='fa-solid fa-plus'></i>
                                             </button>
-                                            <button className='desCart' onClick={() => decreaseQty(item)}>
+                                            <button className='desCart' onClick={() => dispatch(decreaseQty(item.id_Product))}>
                                                 <i className='fa-solid fa-minus'></i>
                                             </button>
                                         </div>
