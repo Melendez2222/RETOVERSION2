@@ -1,34 +1,33 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { AuthContextType } from '../components/BODY/Interfaces';
 import { useNavigate } from 'react-router-dom';
+import { clearToken, setTokenSR} from './../Redux/tokenSlice'
+import { setToken, getToken, removeToken, setExpires, getExpires, removeExpires, clearStorage } from '../utils/localStorage';
 import { useDispatch } from 'react-redux';
-import { setToken, clearToken } from '../Redux/tokenSlice';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
+// const storedToken = await getToken();
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [expires, setExpires] = useState<Date | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
   const dispatch = useDispatch();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [expires, setExpiresState] = useState<Date | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const history = useNavigate();
-
+  
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    const storedExpires = localStorage.getItem('expires');
-
+    const storedToken = getToken();
+    const storedExpires = getExpires();
     if (storedToken && storedExpires) {
       const expirationDate = new Date(storedExpires);
       if (expirationDate > new Date()) {
-        dispatch(setToken(storedToken));
-        setExpires(expirationDate);
+        setExpiresState(expirationDate);
         setIsAuthenticated(true);
       } else {
         handle401();
       }
     }
     setLoading(false);
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     if (expires) {
@@ -49,28 +48,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const handle401 = () => {
     setIsAuthenticated(false);
-    setExpires(null);
+    setExpiresState(null);
     dispatch(clearToken());
-    localStorage.removeItem('token');
-    localStorage.removeItem('expires');
-    alert('AUTORIZACION EXPIRADA O NO EXISTENTE!!!');
+    removeToken();
+    removeExpires();
+    alert('AUTORIZACIÓN EXPIRADA O NO EXISTENTE!!!');
     history('/');
   };
 
-  const login = (newToken: string, expirationDate: string) => {
+  const login = async (newToken: string, expirationDate: string) => {
     setIsAuthenticated(true);
-    setExpires(new Date(expirationDate));
-    dispatch(setToken(newToken));
-    localStorage.setItem('token', newToken);
-    localStorage.setItem('expires', expirationDate);
+    setExpiresState(new Date(expirationDate));
+    dispatch(setTokenSR(newToken))
+    await setToken(newToken);
+    await setExpires(new Date(expirationDate));
   };
 
   const logout = () => {
     setIsAuthenticated(false);
-    setExpires(null);
+    setExpiresState(null);
     dispatch(clearToken());
-    localStorage.removeItem('token');
-    localStorage.removeItem('expires');
+    removeToken();
+    removeExpires();
   };
 
   if (loading) {

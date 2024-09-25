@@ -1,27 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface TokenState {
-  value: string;
+  token: string|null;
 }
 
 const initialState: TokenState = {
-  value: localStorage.getItem('token') || '',
+  token: null,
 };
 
 const tokenSlice = createSlice({
   name: 'token',
   initialState,
   reducers: {
-    setToken: (state, action: PayloadAction<string>) => {
-      state.value = action.payload;
-      localStorage.setItem('token', action.payload);
+    setTokenSR: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
     },
     clearToken: (state) => {
-      state.value = '';
-      localStorage.removeItem('token');
+      state.token = null;
     },
   },
 });
 
-export const { setToken, clearToken } = tokenSlice.actions;
+export const { setTokenSR, clearToken } = tokenSlice.actions;
 export default tokenSlice.reducer;

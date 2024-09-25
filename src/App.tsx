@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import Header from './components/header/Header'
-import Footer from './components/footer/Footer'
+import Header from './components/Common/header/Header'
+import Footer from './components/Common/footer/Footer'
 import Home from './components/BODY/Home'
 import './App.css'
 import {Routes, Route } from "react-router-dom"

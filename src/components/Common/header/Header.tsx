@@ -1,10 +1,10 @@
-import logo from './../../assets/logo.svg'
+import logo from './../../../assets/logo.svg'
 import { Link, useNavigate } from 'react-router-dom'
-import { HeaderProps } from '../BODY/Interfaces'
-import { useEffect, useState } from 'react'
+import { HeaderProps } from '../../BODY/Interfaces'
+import { useState } from 'react'
 
 import './Header.css'
-import LoginModal from '../BODY/LoginModal';
+import LoginModal from '../../BODY/LoginModal';
 
 const Header:React.FC<HeaderProps> = (cartItems) => {
   const navigate = useNavigate(); 

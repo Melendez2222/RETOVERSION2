@@ -12,7 +12,7 @@ const AdmPanel = () => {
   const navigate = useNavigate(); 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log("aasdad", token)
+    // console.log("aasdad", token)
     if (!token) {
       navigate('/');
     }

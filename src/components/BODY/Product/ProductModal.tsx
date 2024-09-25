@@ -4,7 +4,18 @@ import { Category, Product, ProductModalProps, ProductUpdate } from '../Interfac
 import { CreateProduct, ListCategory, UpdateProduct } from '../../../services/Request';
 
 const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, product }) => {
-    
+    const fetchCategory = async () => {
+        try {
+            const response = await ListCategory();
+            setCategorias(response);
+        } catch (error) {
+            alert('Error LISTA CATEGORY MODALPRO:');
+            console.log(error);
+        }
+    };
+    useEffect(()=>{
+        fetchCategory();
+    },[]);
     const [alertOpen, setAlertOpen] = useState(false);
     const [categorias, setCategorias] = useState<Category[]>([]);
     const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0);
@@ -27,18 +38,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, prod
         category: '',
         createdAt: '',
     });
-    const fetchCategory = async () => {
-        try {
-            const response = await ListCategory();
-            setCategorias(response);
-        } catch (error) {
-            alert('Error fetching products:');
-            console.log(error);
-        }
-    };
-    useEffect(()=>{
-        fetchCategory();
-    },[]);
+    
     useEffect(() => {
         
         if (product) {

@@ -2,11 +2,11 @@ import { CategoriaProps } from "./Interfaces";
 
 const Categoria: React.FC<CategoriaProps> = ({ onSelectCategory }) => {
   const data = [
-    { cateImg: "./src/assets/category/cat1.png", cateName: "CAMISA" },
-    { cateImg: "./src/assets/category/cat2.png", cateName: "PANTALON" },
-    { cateImg: "./src/assets/category/cat3.png", cateName: "CALZADO" },
-    { cateImg: "./src/assets/category/cat4.png", cateName: "ASEO_PERSONAL" },
-    { cateImg: "./src/assets/category/cat5.png", cateName: "LIMPIEZA" },
+    { cateImg: "./src/assets/icon/category/cat1.png", cateName: "CAMISA" },
+    { cateImg: "./src/assets/icon/category/cat2.png", cateName: "PANTALON" },
+    { cateImg: "./src/assets/icon/category//cat3.png", cateName: "CALZADO" },
+    { cateImg: "./src/assets/icon/category//cat4.png", cateName: "ASEO_PERSONAL" },
+    { cateImg: "./src/assets/icon/category/cat5.png", cateName: "LIMPIEZA" },
   ];
 
   return (
