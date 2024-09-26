@@ -1,5 +1,5 @@
 import logo from './../../../assets/logo.svg'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { HeaderProps } from '../../BODY/Interfaces'
 import { useState } from 'react'
 import './Header.css'
@@ -7,14 +7,15 @@ import LoginModal from '../../BODY/LoginModal';
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux'
 import AdminSubMenu from './AdminsubMenu'
+import { getToken } from '../../../utils/localStorage'
 
 const Header:React.FC<HeaderProps> = () => {
-  const navigate = useNavigate(); 
+  //const navigate = useNavigate(); 
   const [showModal, setShowModal] = useState(false);
   const [showSubMenu, setShowSubMenu] = useState(false);
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const handleOpenModal = () => {
-      const token = localStorage.getItem('token');
+      const token = getToken();
       if (!token) {
         setShowModal(true);
       }else{

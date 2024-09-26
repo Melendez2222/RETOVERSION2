@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Client, Detalle_Factura, FacturaI, Loginuser, Product, ProductUpdate } from "../components/BODY/Interfaces";
-import Store ,{ RootState} from "./../Redux/Store";
+//import Store ,{ RootState} from "./../Redux/Store";
 import { getToken } from "../utils/localStorage";
 const API_URL = 'https://localhost:7296/'
 

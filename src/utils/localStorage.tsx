@@ -1,5 +1,8 @@
+import { Product } from "../components/BODY/Interfaces";
+
 const TOKEN_KEY = 'token';
 const EXPIRES_KEY = 'expires';
+const CART_ITEMS_KEY = 'cartItems';
 
 export const setToken = (token: string): void => {
     localStorage.setItem(TOKEN_KEY, token);
@@ -29,4 +32,12 @@ export const removeExpires = (): void => {
 
 export const clearStorage = (): void => {
     localStorage.clear();
+};
+
+export const setCartItems = (items: Product[]): void => {
+    localStorage.setItem(CART_ITEMS_KEY, JSON.stringify(items));
+};
+
+export const getCartItems = (): Product[] => {
+    return JSON.parse(localStorage.getItem(CART_ITEMS_KEY) || '[]');
 };

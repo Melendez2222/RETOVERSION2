@@ -5,13 +5,14 @@ import SubMenuAdm from './SubMenuAdm';
 import './Home.css';
 import ClienteCrud from './ClienteCrud';
 import Factura from './Factura';
-import { useAuth } from '../../auth/AuthProv';
+//import { useAuth } from '../../auth/AuthProv';
+import { getToken } from '../../utils/localStorage';
 
 const AdmPanel = () => {
   const [selectedMenu, setSelectedMenu] = useState<string>('');
   const navigate = useNavigate(); 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = getToken();
     // console.log("aasdad", token)
     if (!token) {
       navigate('/');
