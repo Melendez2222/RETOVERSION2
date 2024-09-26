@@ -61,7 +61,7 @@ function App() {
   // const handleDecreaseQty = (product: Product) => {
   //   dispatch(decreaseQty(product.id_Product));
   // };
-  const cartItems = useSelector((state: RootState) => state.cart.items);
+  //const cartItems = useSelector((state: RootState) => state.cart.items);
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {

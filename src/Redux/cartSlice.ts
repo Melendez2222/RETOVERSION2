@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product } from "../components/BODY/Interfaces";
-import { getCartItems } from "../utils/localStorage";
+import { setCartItemStorage,getCartItemsStorage } from "../utils/localStorage";
 
 interface CartState {
   items: Product[];
 }
 
 const initialState: CartState = {
-  items: getCartItems(),
+  items: getCartItemsStorage(),
 };
 const cartSlice = createSlice({
   name: "cart",
@@ -22,13 +22,13 @@ const cartSlice = createSlice({
       } else {
         state.items.push({ ...action.payload, qty: 1 });
       }
-      setCartItems(state.items);
+      setCartItemStorage(state.items);
     },
     deleteQty: (state, action: PayloadAction<number>) => {
       state.items = state.items.filter(
         (item) => item.id_Product !== action.payload
       );
-      setCartItems(state.items);
+      setCartItemStorage(state.items);
     },
     decreaseQty: (state, action: PayloadAction<number>) => {
       const product = state.items.find(
@@ -43,11 +43,11 @@ const cartSlice = createSlice({
           product.qty = (product.qty || 0) - 1;
         }
       }
-      setCartItems(state.items);
+      setCartItemStorage(state.items);
     },
     setCartItems: (state, action: PayloadAction<Product[]>) => {
       state.items = action.payload;
-      setCartItems(state.items);
+      setCartItemStorage(state.items);
     },
   },
 });

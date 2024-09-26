@@ -34,10 +34,10 @@ export const clearStorage = (): void => {
     localStorage.clear();
 };
 
-export const setCartItems = (items: Product[]): void => {
+export const setCartItemStorage = (items: Product[]): void => {
     localStorage.setItem(CART_ITEMS_KEY, JSON.stringify(items));
 };
 
-export const getCartItems = (): Product[] => {
+export const getCartItemsStorage = (): Product[] => {
     return JSON.parse(localStorage.getItem(CART_ITEMS_KEY) || '[]');
 };

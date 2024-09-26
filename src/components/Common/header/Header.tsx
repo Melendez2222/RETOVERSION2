@@ -73,7 +73,7 @@ const Header:React.FC<HeaderProps> = () => {
             <Link to='/cart'>
             <i className='fa fa-shopping-bag icon-circle'></i>
             {/* <span>{cartItems.cartItems.length === 0 ? "" : cartItems.cartItems.length}</span> */}
-            <span>{cartItems.length === 0 ? "" : cartItems.length}</span>
+            <span>{cartItems.length == 0 ? "" : cartItems.length}</span>
             </Link>
           </div>
         </div>
