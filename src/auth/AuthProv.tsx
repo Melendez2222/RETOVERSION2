@@ -2,8 +2,9 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { AuthContextType } from '../components/BODY/Interfaces';
 import { useNavigate } from 'react-router-dom';
 import { clearToken, setTokenSR} from './../Redux/tokenSlice'
-import { setToken, getToken, removeToken, setExpires, getExpires, removeExpires, clearStorage } from '../utils/localStorage';
+import { setToken, getToken, removeToken, setExpires, getExpires, removeExpires, clearStorage, setUsernameLT, setPasswordLT, removePasswordLT, removeUsernameLT } from '../utils/localStorage';
 import { useDispatch } from 'react-redux';
+import { setUserCredentials } from '../Redux/cartSlice';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // const storedToken = await getToken();
@@ -11,6 +12,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const dispatch = useDispatch();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [expires, setExpiresState] = useState<Date | null>(null);
+  
   const [loading, setLoading] = useState<boolean>(true);
   const history = useNavigate();
   
@@ -52,24 +54,44 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     dispatch(clearToken());
     removeToken();
     removeExpires();
+    removePasswordLT();
+    removeUsernameLT();
+    clearStorage();
     alert('AUTORIZACIÓN EXPIRADA O NO EXISTENTE!!!');
     history('/');
   };
 
-  const login = async (newToken: string, expirationDate: string) => {
+  // const login = async (newToken: string, expirationDate: string,username:string,password:string) => {
+  //   setIsAuthenticated(true);
+  //   setExpiresState(new Date(expirationDate));
+  //   dispatch(setTokenSR(newToken))
+    
+  //   dispatch(setUserCredentials({userName:username,userPassword:password}))
+  //   await setToken(newToken);
+  //   await setExpires(new Date(expirationDate));
+  //   await setUsernameLT(username);
+  //   await setPasswordLT(password);
+  // };
+  const login = async (newToken: string, expirationDate: string, username: string, password: string, cartDetails: CartDetailDto[]) => {
     setIsAuthenticated(true);
     setExpiresState(new Date(expirationDate));
-    dispatch(setTokenSR(newToken))
+    dispatch(setTokenSR(newToken));
+    dispatch(setUserCredentials({ userName: username, userPassword: password }));
+    dispatch(setCartDetails(cartDetails)); // Asumiendo que tienes una acción para esto
     await setToken(newToken);
     await setExpires(new Date(expirationDate));
-  };
-
+    await setUsernameLT(username);
+    await setPasswordLT(password);
+};
   const logout = () => {
     setIsAuthenticated(false);
     setExpiresState(null);
     dispatch(clearToken());
     removeToken();
     removeExpires();
+    removePasswordLT();
+    removeUsernameLT();
+    clearStorage();
   };
 
   if (loading) {

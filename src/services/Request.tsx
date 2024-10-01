@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Client, Detalle_Factura, FacturaI, Loginuser, Product, ProductUpdate } from "../components/BODY/Interfaces";
+import { CartDetailDto, CartItemDetail, Client, Detalle_Factura, FacturaI, Loginuser, Product, ProductUpdate } from "../components/BODY/Interfaces";
 //import Store ,{ RootState} from "./../Redux/Store";
 import { getToken } from "../utils/localStorage";
 const API_URL = 'https://localhost:7296/'
@@ -62,26 +62,35 @@ export const validateToken = async (): Promise<boolean> => {
     return false;
   }
 };
-export const LoginUsers = async (loginuser: Loginuser, login: (token: string, expires: string) => void): Promise<any> => {
+// export const LoginUsers = async (loginuser: Loginuser, login: (token: string,username:string,password:string, expires: string) => void): Promise<any> => {
   
+//   try {
+//     const response = await apiClient.post(`${API_URL}Auth/login`, loginuser, {
+//       headers: {
+//         'Content-Type': 'application/json'
+//       }
+//     });
+//     const { token, iduser, expires, role } = response.data;
+//     login(token, expires,loginuser.username,loginuser.password);
+//     return { iduser, expires, role };
+//   } catch (error) {
+//     throw error;
+//   }
+// } 
+export const LoginUsers = async (loginuser: Loginuser, login: (token: string, username: string, password: string, expires: string, cartDetails: CartDetailDto[]) => void): Promise<any> => {
   try {
     const response = await apiClient.post(`${API_URL}Auth/login`, loginuser, {
       headers: {
         'Content-Type': 'application/json'
       }
     });
-    const { token, iduser, expires, role } = response.data;
-    login(token, expires);
-    return { iduser, expires, role };
+    const { token, userId, expires, role, cartDetails } = response.data;
+    login(token, expires, loginuser.username, loginuser.password, cartDetails);
+    return { userId, expires, role, cartDetails };
   } catch (error) {
     throw error;
   }
 }
-// const getTokenR = (): string | null => {
-//   const state: RootState = Store.getState();
-//   return state.token.token;
-// };
-// const token=getToken();
 export const listAllProducts = async () => {
   try {
     const response = await axios.get(`${API_URL}PRODUCT/ListAll`);
@@ -228,7 +237,52 @@ export const CreateDetalleFactura = async (detallefactura: Detalle_Factura) => {
     throw error;
   }
 }
+export const addCartItem = async (cartItemDetail: CartItemDetail) => {
+    const response = await fetch(`${API_URL}Cart/CartItems`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(cartItemDetail),
+    });
 
+    if (!response.ok) {
+        throw new Error('Error al agregar el producto al carrito');
+    }
+
+    return response.json();
+};
+export const DecreaseCartItem = async (cartItemDetail: CartItemDetail) => {
+  const response = await fetch(`${API_URL}Cart/DecreaseCartItem`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(cartItemDetail),
+  });
+
+  if (!response.ok) {
+      throw new Error('Error al agregar el producto al carrito');
+  }
+
+  return response.json();
+};
+export const DeleteeCartItem = async (cartItemDetail: CartItemDetail) => {
+  const response = await fetch(`${API_URL}Cart/RemoveCartItem`, {
+      method: 'DELETE',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(cartItemDetail),
+  });
+
+  if (!response.ok) {
+      throw new Error('Error al agregar el producto al carrito');
+  }
+
+  return response.json();
+};
+export const UpdateCartItem = async()=>{}
 export default apiClient;
 
 

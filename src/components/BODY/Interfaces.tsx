@@ -69,16 +69,26 @@ export interface AuthProvProps {
 }
 export interface AuthContextType {
     isAuthenticated: boolean;
-    login: (newToken: string, expirationDate: string) => void;
+    login: (newToken: string, expirationDate: string,username:string,password:string) => void;
     logout: () => void;
     handle401:()=>void;
 }
-
+export interface CartItemDetail {
+    UserName: string;
+    UserPassword: string;
+    ProductId: number;
+}
 export interface ClientModalProps {
     open: boolean;
     onClose: () => void;
     onSave: () => void;
     client: Client | null;
+}
+export interface CartDetailDto {
+    idItemCart: number;
+    productId: number;
+    quantity: number;
+    createAt: Date;
 }
 export interface ProductModalProps {
     open: boolean;
