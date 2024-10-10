@@ -3,7 +3,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Header.css';
-import { removeToken } from '../../../utils/localStorage';
+import { clearStorage, removeToken } from '../../../utils/localStorage';
+import { useAuth } from '../../../auth/AuthProv';
 
 interface AdminSubMenuProps {
   onClose: () => void;
@@ -11,9 +12,9 @@ interface AdminSubMenuProps {
 
 const AdminSubMenu: React.FC<AdminSubMenuProps> = ({ onClose }) => {
   const navigate = useNavigate();
-
+  const { logout } = useAuth();
   const handleLogout = () => {
-    removeToken();
+    logout();
     navigate('/');
     onClose();
   };

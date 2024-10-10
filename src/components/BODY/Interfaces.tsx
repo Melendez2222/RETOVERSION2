@@ -10,6 +10,13 @@ export interface Product {
     createdAt: string;
     qty?: number;
 }
+export interface CartItem {
+    productId: number;
+    ProductCode:string;
+    productName: string;
+    quantity: number;
+    price: number;
+}
 export interface ProductUpdate {
     id_Product: number;
     productCode: string;
@@ -77,6 +84,10 @@ export interface CartItemDetail {
     UserName: string;
     UserPassword: string;
     ProductId: number;
+}
+export interface GetCartItemDetail {
+    username: string|null;
+    password: string|null;
 }
 export interface ClientModalProps {
     open: boolean;

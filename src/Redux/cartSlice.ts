@@ -30,7 +30,6 @@ const cartSlice = createSlice({
         state.items.push({ ...action.payload, qty: 1 });
       }
       setCartItemStorage(state.items);
-      // Llamada HTTP
       if (state.userName && state.userPassword) {
         const cartItemDetail: CartItemDetail = {
           UserName: state.userName,
@@ -110,9 +109,16 @@ const cartSlice = createSlice({
       state.userName = null;
       state.userPassword = null;
     },
+    updateCartItems: (state, action: PayloadAction<Product[]>) => {
+      state.items = action.payload;
+      setCartItemStorage(state.items);
+    },
+    clearCart: (state) => {
+      state.items = [];
+    },
   },
 });
 
-export const { addToCart, deleteQty, decreaseQty, setCartItems, setUserCredentials, clearUserCredentials } =
+export const { addToCart, deleteQty, decreaseQty, setCartItems, setUserCredentials,clearCart, clearUserCredentials,updateCartItems } =
   cartSlice.actions;
 export default cartSlice.reducer;

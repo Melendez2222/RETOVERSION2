@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CartDetailDto, CartItemDetail, Client, Detalle_Factura, FacturaI, Loginuser, Product, ProductUpdate } from "../components/BODY/Interfaces";
+import { CartDetailDto, CartItemDetail, Client, Detalle_Factura, FacturaI, GetCartItemDetail, Loginuser, Product, ProductUpdate } from "../components/BODY/Interfaces";
 //import Store ,{ RootState} from "./../Redux/Store";
 import { getToken } from "../utils/localStorage";
 const API_URL = 'https://localhost:7296/'
@@ -282,7 +282,21 @@ export const DeleteeCartItem = async (cartItemDetail: CartItemDetail) => {
 
   return response.json();
 };
-export const UpdateCartItem = async()=>{}
+export const GetCartItem = async (cartItemDetail: GetCartItemDetail) => {
+  const response = await fetch(`${API_URL}Cart/CartUser`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(cartItemDetail),
+  });
+
+  if (response.status!=200) {
+      throw new Error('Error al agregar el producto al carrito');
+  }
+
+  return response.json();
+};
 export default apiClient;
 
 
