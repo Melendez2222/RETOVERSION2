@@ -2,7 +2,7 @@ import axios from "axios";
 import { CartDetailDto, CartItemDetail, Client, Detalle_Factura, FacturaI, GetCartItemDetail, Loginuser, Product, ProductUpdate } from "../components/BODY/Interfaces";
 //import Store ,{ RootState} from "./../Redux/Store";
 import { getToken } from "../utils/localStorage";
-const API_URL = 'https://localhost:7296/'
+const API_URL = 'https://localhost:7209/'
 
 
 
@@ -79,7 +79,7 @@ export const validateToken = async (): Promise<boolean> => {
 // } 
 export const LoginUsers = async (loginuser: Loginuser, login: (token: string, username: string, password: string, expires: string, cartDetails: CartDetailDto[]) => void): Promise<any> => {
   try {
-    const response = await apiClient.post(`${API_URL}Auth/login`, loginuser, {
+    const response = await apiClient.post(`${API_URL}api/Auth/login`, loginuser, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -93,7 +93,7 @@ export const LoginUsers = async (loginuser: Loginuser, login: (token: string, us
 }
 export const listAllProducts = async () => {
   try {
-    const response = await axios.get(`${API_URL}PRODUCT/ListAll`);
+    const response = await axios.get(`${API_URL}list`);
     return response.data;
   } catch (error) {
     console.error('Error fetching products:', error);
