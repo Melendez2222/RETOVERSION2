@@ -1,6 +1,6 @@
 // src/app/services/api.ts
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Product } from '../components/BODY/Interfaces';
+import { Loginuser, Product } from '../components/BODY/Interfaces';
 import { getToken } from '../utils/localStorage';
 
 const API_URL = 'https://localhost:7209/';
@@ -23,7 +23,9 @@ export const api = createApi({
     listAllProducts: builder.query<Product[], void>({
       query: () => 'Product/list',
     }),
-    loginusers:builder.query<>
+    loginusers:builder.query<Loginuser,void>({
+      query:()=>'api/Auth/login',
+    }),
   }),
 });
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import {PantalonProps} from "./Interfaces"
 const Pantalon: React.FC<PantalonProps>  = ({selectedIndex, products,addToCart}) => {
-  const filteredItems = products.filter(item => item.category === selectedIndex);
+  const filteredItems = products.filter(item => item.categoryName === selectedIndex);
   return (
     <div className="container-items">
         {filteredItems.map((product) => (

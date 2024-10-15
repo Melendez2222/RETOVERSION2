@@ -2,7 +2,7 @@ import React from 'react'
 import {LimpiezaProps} from "./Interfaces"
 const Limpieza: React.FC<LimpiezaProps> = ({selectedIndex, products,addToCart}) => {
   
-  const filteredItems = products.filter(item => item.category === selectedIndex);
+  const filteredItems = products.filter(item => item.categoryName === selectedIndex);
   return (
     <div className="container-items">
         {filteredItems.map((product) => (

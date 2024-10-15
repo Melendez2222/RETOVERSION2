@@ -35,7 +35,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, prod
         price: 0,
         stock: 0,
         productActive: undefined,
-        category: '',
+        categoryName: '',
         createdAt: '',
     });
     
@@ -43,7 +43,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, prod
         
         if (product) {
             setFormData(product);
-            const preselectedCategory = categorias.find(cat => cat.catProductName === product.category);
+            const preselectedCategory = categorias.find(cat => cat.catProductName === product.categoryName);
             if (preselectedCategory) {
                 setSelectedCategoryId(preselectedCategory.catProductId)
                 setUpdateData({
@@ -65,7 +65,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, prod
                 price: 0,
                 stock: 0,
                 productActive: undefined,
-                category: '',
+                categoryName: '',
                 createdAt: '',
             });
         }
@@ -107,7 +107,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, prod
           setSelectedCategoryId(selectedCategoryid.catProductId);
           
           setUpdateData({...updateData,catProductId:selectedCategoryid.catProductId});
-          setFormData({...formData,category:selectedCategoryid.catProductName});
+          setFormData({...formData,categoryName:selectedCategoryid.catProductName});
         }
         
         
@@ -136,7 +136,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, onSave, prod
                     <Select
                         labelId="category-select-label"
                         id='categoria_pro_id'
-                        value={formData.category}
+                        value={formData.categoryName}
                         onChange={handleCategoryChange}
                         fullWidth
                     >
