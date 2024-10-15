@@ -8,8 +8,8 @@ import { useAuth } from '../../auth/AuthProv';
 const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
     const { login } = useAuth();
     const [loginuser, setLoginUser] = useState<Loginuser>({
-        username: "",
-        password: "",
+        userUsername: "",
+        userPassword: "",
     })
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -78,15 +78,15 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
                                     <i className="fas fa-user"></i>
                                     <input type="text"
                                         placeholder="Username"
-                                        value={loginuser.username}
-                                        onChange={(e) => setLoginUser({ ...loginuser, username: e.target.value })} />
+                                        value={loginuser.userUsername}
+                                        onChange={(e) => setLoginUser({ ...loginuser, userUsername: e.target.value })} />
                                 </div>
                                 <div className="input-field">
                                     <i className="fas fa-lock"></i>
                                     <input type="password"
                                         placeholder="Password"
-                                        value={loginuser.password}
-                                        onChange={(e) => setLoginUser({ ...loginuser, password: e.target.value })} />
+                                        value={loginuser.userPassword}
+                                        onChange={(e) => setLoginUser({ ...loginuser, userPassword: e.target.value })} />
                                 </div>
                                 <input type="submit" value="Login" className="btn solid" />
 

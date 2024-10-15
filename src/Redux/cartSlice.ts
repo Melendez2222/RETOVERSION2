@@ -32,8 +32,6 @@ const cartSlice = createSlice({
       setCartItemStorage(state.items);
       if (state.userName && state.userPassword) {
         const cartItemDetail: CartItemDetail = {
-          UserName: state.userName,
-          UserPassword: state.userPassword,
           ProductId: action.payload.id_Product,
         };
 
@@ -56,8 +54,6 @@ const cartSlice = createSlice({
         // Llamada HTTP
         if (state.userName && state.userPassword) {
           const cartItemDetail: CartItemDetail = {
-            UserName: state.userName,
-            UserPassword: state.userPassword,
             ProductId: action.payload,
           };
 
@@ -85,8 +81,6 @@ const cartSlice = createSlice({
         // Llamada HTTP
         if (state.userName && state.userPassword) {
           const cartItemDetail: CartItemDetail = {
-            UserName: state.userName,
-            UserPassword: state.userPassword,
             ProductId: action.payload,
           };
 

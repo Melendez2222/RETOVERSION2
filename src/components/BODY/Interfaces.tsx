@@ -6,9 +6,20 @@ export interface Product {
     price: number;
     stock: number;
     productActive?: boolean;
-    category: string;
+    categoryName: string;
     createdAt: string;
     qty?: number;
+}
+export interface ProductCart{
+    ProductId: number;
+    ProductName: string;
+    ProductCode: string;
+    Price: number;
+    stock: number;
+    productActive?: boolean;
+    categoryName: string;
+    createdAt: string;
+    Quantity?: number;
 }
 export interface CartItem {
     productId: number;
@@ -49,8 +60,8 @@ export interface Client {
         token:string;
     }
 export interface Loginuser{
-    username:string;
-    password:string;
+    userUsername:string;
+    userPassword:string;
 }
 export interface ClienteSeleccionado {
     rucdni: string;
@@ -76,18 +87,16 @@ export interface AuthProvProps {
 }
 export interface AuthContextType {
     isAuthenticated: boolean;
-    login: (newToken: string, expirationDate: string,username:string,password:string) => void;
+    login: (newToken: string, expiration: string,userUsername:string,userPassword:string) => void;
     logout: () => void;
     handle401:()=>void;
 }
 export interface CartItemDetail {
-    UserName: string;
-    UserPassword: string;
     ProductId: number;
 }
 export interface GetCartItemDetail {
-    username: string|null;
-    password: string|null;
+    userUsername: string|null;
+    userPassword: string|null;
 }
 export interface ClientModalProps {
     open: boolean;

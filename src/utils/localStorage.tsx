@@ -1,7 +1,7 @@
 import { Product } from "../components/BODY/Interfaces";
 
 const TOKEN_KEY = 'token';
-const EXPIRES_KEY = 'expires';
+const EXPIRES_KEY = 'expiration';
 const CART_ITEMS_KEY = 'cartItems';
 const USERNAME_KEY = 'username';
 const PASSWORD_KEY = 'password';
@@ -42,8 +42,8 @@ export const getPasswordLT = (): string | null => {
 export const removePasswordLT = (): void => {
     localStorage.removeItem(PASSWORD_KEY);
 };
-export const setExpires = (expires: Date): void => {
-    localStorage.setItem(EXPIRES_KEY, expires.toISOString());
+export const setExpires = (expiration: Date): void => {
+    localStorage.setItem(EXPIRES_KEY, expiration.toISOString());
 };
 
 export const getExpires = (): Date | null => {

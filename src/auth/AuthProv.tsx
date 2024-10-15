@@ -12,7 +12,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const dispatch = useDispatch();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [expires, setExpiresState] = useState<Date | null>(null);
+  const [expiration, setExpiresState] = useState<Date | null>(null);
 
   const [loading, setLoading] = useState<boolean>(true);
   const history = useNavigate();
@@ -33,9 +33,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   useEffect(() => {
-    if (expires) {
+    if (expiration) {
       const now = new Date();
-      const timeUntilExpiration = new Date(expires).getTime() - now.getTime();
+      const timeUntilExpiration = new Date(expiration).getTime() - now.getTime();
 
       if (timeUntilExpiration > 0) {
         const timeoutId = setTimeout(() => {
@@ -47,7 +47,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         handle401();
       }
     }
-  }, [expires]);
+  }, [expiration]);
 
   const handle401 = () => {
     setIsAuthenticated(false);
@@ -62,21 +62,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     history('/');
   };
 
-  const login = async (newToken: string, expirationDate: string, username: string, password: string) => {
+  const login = async (newToken: string, expirationDate: string, userUsername: string, userPassword: string) => {
     setIsAuthenticated(true);
     setExpiresState(new Date(expirationDate));
     dispatch(setTokenSR(newToken))
 
-    dispatch(setUserCredentials({ userName: username, userPassword: password }))
+    dispatch(setUserCredentials({ userName: userUsername, userPassword: userPassword }))
     await Promise.all([
       setToken(newToken),
       setExpires(new Date(expirationDate)),
-      setUsernameLT(username),
-      setPasswordLT(password)
+      setUsernameLT(userUsername),
+      setPasswordLT(userPassword)
     ]);
     // await GetCartItem({UserName: username, UserPassword: password  });
     try {
-      const cartDetails = await GetCartItem({ username: username, password: password });
+      const cartDetails = await GetCartItem();
       const mappedCartItems = cartDetails.map((item: any) => ({
           id_Product: item.productId,
           productName: item.productName,
