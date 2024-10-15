@@ -1,18 +1,17 @@
 import { useRef, useEffect } from 'react'
 import './Login.css'
 const Login = () => {
-    // Referencias para los botones y contenedor
+ 
     const containerRef = useRef<HTMLDivElement>(null);
     const signInBtnRef = useRef<HTMLButtonElement>(null);
     const signUpBtnRef = useRef<HTMLButtonElement>(null);
 
-    // useEffect para manejar los eventos cuando el componente se monta
     useEffect(() => {
         const container = containerRef.current;
         const signInBtn = signInBtnRef.current;
         const signUpBtn = signUpBtnRef.current;
         if (!container || !signInBtn || !signUpBtn) return;
-        // Funciones para agregar y quitar la clase
+      
         const handleSignUp = () => {
             container.classList.add('sign-up-mode');
         };
@@ -21,16 +20,15 @@ const Login = () => {
             container.classList.remove('sign-up-mode');
         };
 
-        // Añadir los event listeners
         signUpBtn.addEventListener('click', handleSignUp);
         signInBtn.addEventListener('click', handleSignIn);
 
-        // Limpiar los event listeners cuando el componente se desmonta
+       
         return () => {
             signUpBtn.removeEventListener('click', handleSignUp);
             signInBtn.removeEventListener('click', handleSignIn);
         };
-    }, []); // El array vacío asegura que este efecto se ejecute solo una vez
+    }, []); 
     return (
         <div className="container-login" ref={containerRef}>
             <div className="forms-container">
