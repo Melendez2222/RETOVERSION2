@@ -1,43 +1,41 @@
 import { Dialog, DialogContent } from '@mui/material';
-import { useRef, useEffect, useState } from 'react'
-import './Login.css'
+import { useRef, useEffect, useState } from 'react';
+import './Login.css';
 import { LoginModalProps, Loginuser } from './Interfaces';
-import { LoginUsers } from '../../services/Request';
 import { useAuth } from '../../auth/AuthProv';
+import { useLoginUserMutation } from '../../RTK/api';
 
 const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
     const { login } = useAuth();
     const [loginuser, setLoginUser] = useState<Loginuser>({
         userUsername: "",
         userPassword: "",
-    })
+    });
+
+    const [loginUser, { isLoading, error }] = useLoginUserMutation();
+
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            const response = await LoginUsers(loginuser,login);
-            // console.table(response);
+            const response = await loginUser({ loginuser, login }).unwrap();
             if (response) {
                 onClose();
-                
             }
-
         } catch (error) {
             alert('CREDENCIALES INCORRECTAS');
         }
-
     };
-    // Referencias para los botone  s y contenedor
+
     const containerRef = useRef<HTMLDivElement>(null);
     const signInBtnRef = useRef<HTMLButtonElement>(null);
     const signUpBtnRef = useRef<HTMLButtonElement>(null);
 
-    // useEffect para manejar los eventos cuando el componsente se monta
     useEffect(() => {
         const container = containerRef.current;
         const signInBtn = signInBtnRef.current;
         const signUpBtn = signUpBtnRef.current;
         if (!container || !signInBtn || !signUpBtn) return;
-        // Funciones para agregar y quitar la clase
+
         const handleSignUp = () => {
             container.classList.add('sign-up-mode');
         };
@@ -46,18 +44,25 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
             container.classList.remove('sign-up-mode');
         };
 
-        // Añadir los event listeners
         signUpBtn.addEventListener('click', handleSignUp);
         signInBtn.addEventListener('click', handleSignIn);
 
-        // Limpiar los event listeners cuando el componente se desmonta
         return () => {
             signUpBtn.removeEventListener('click', handleSignUp);
             signInBtn.removeEventListener('click', handleSignIn);
         };
-        
-    }, []); // El array vacío asegura que este efecto se ejecute solo una vez
-    
+    }, []); 
+
+    const getErrorMessage = (error: any): string => {
+        if ('status' in error) {
+          
+            return 'data' in error ? (error.data as { message?: string }).message || 'Error' : 'Error';
+        } else {
+           
+            return error.message || 'Error';
+        }
+    };
+
     return (
         <Dialog open={open} onClose={onClose} sx={{
             '& .MuiDialog-paper': {
@@ -89,7 +94,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
                                         onChange={(e) => setLoginUser({ ...loginuser, userPassword: e.target.value })} />
                                 </div>
                                 <input type="submit" value="Login" className="btn solid" />
-
+                                {isLoading && <p>Loading...</p>}
+                                {error && <p>Error: {getErrorMessage(error)}</p>}
                             </form>
                             <form action="#" className="sign-up-form">
                                 <h2 className="title">Sign up</h2>
@@ -122,7 +128,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
                                     <input type="password" placeholder="Password" />
                                 </div>
                                 <input type="submit" className="btn" value="Sign up" />
-
                             </form>
                         </div>
                     </div>
@@ -152,7 +157,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
                 </div>
             </DialogContent>
         </Dialog>
-    )
-}
+    );
+};
 
-export default LoginModal
+export default LoginModal;
