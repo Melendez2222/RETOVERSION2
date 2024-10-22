@@ -45,7 +45,7 @@ export const LoginUsers = async (loginuser: Loginuser, login: (token: string, us
 }
 export const listAllProducts = async () => {
   try {
-    const response = await axios.get(`${API_URL}Product/list`);
+    const response = await axios.get(`${API_URL}api/Product/list`);
     return response.data;
   } catch (error) {
     console.error('Error fetching products:', error);

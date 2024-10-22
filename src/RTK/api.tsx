@@ -36,7 +36,7 @@ export const api = createApi({
       }),
       
     listAllProducts: builder.query<Product[], void>({
-      query: () => 'Product/list',
+      query: () => 'api/Product/list',
     }),
     listCategory: builder.query<any, void>({
       query: () => 'api/Category/list',

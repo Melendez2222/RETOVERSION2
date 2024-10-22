@@ -1,0 +1,11 @@
+import { Base_Api } from "../route";
+
+export const Category_Base_Url = `${Base_Api}/Category`;
+
+export const Category_Endpoint = {
+  CREATE: `${Category_Base_Url}/create`,
+  GET_ID: `${Category_Base_Url}/`,
+  LIST: `${Category_Base_Url}/list`,
+  UPDATE: `${Category_Base_Url}/update/`,
+  DELETE: `${Category_Base_Url}/delete/`,
+};
